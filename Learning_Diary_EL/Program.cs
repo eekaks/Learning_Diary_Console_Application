@@ -14,9 +14,12 @@ namespace Learning_Diary_EL
 
             if (!File.Exists("topics.txt"))
             {
-                using (File.Create("topics.txt")) ;
+                File.Create("topics.txt");
             }
-            
+            else
+            {
+
+            }
 
             while (true)
             {
