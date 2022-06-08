@@ -146,32 +146,28 @@ namespace Learning_Diary_EL
                 break;
             }
 
-            Console.WriteLine("Is the topic finished? Please type 'yes' or 'no': ");
-            bool inProgress = false;
-
-            string answer = Console.ReadLine();
-            if (answer == "yes")
-            {
-                inProgress = false;
-            }
-            else if (answer == "no")
-            {
-                inProgress = true;
-            }
-
+            bool inProgress = true;
+            
             DateTime completionDate = new DateTime();
 
             while (true)
             {
                 try
                 {
-                    Console.WriteLine("What is the date this topic will be finished? Give in format: YYYY/MM/DD");
+                    Console.WriteLine("What is the date this topic was finished? Write 'no' if not finished, otherwise give in format: YYYY/MM/DD");
                     string date = Console.ReadLine();
+
+                    if (date == "no")
+                    {
+                        break;
+                    }
+
                     string[] dateString = date.Split("/");
                     int days = int.Parse(dateString[2]);
                     int months = int.Parse(dateString[1]);
                     int year = int.Parse(dateString[0]);
                     completionDate = new DateTime(year, months, days);
+                    inProgress = false;
 
                     break;
                 }
