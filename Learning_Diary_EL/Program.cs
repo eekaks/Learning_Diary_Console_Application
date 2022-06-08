@@ -2,6 +2,7 @@
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.Json;
 
 
 namespace Learning_Diary_EL
@@ -12,18 +13,26 @@ namespace Learning_Diary_EL
         {
             List<Topic> topics = new List<Topic>();
 
-            if (!File.Exists("topics.txt"))
+            if (!File.Exists("topics.json"))
             {
-                File.Create("topics.txt");
+                var myfile = File.CreateText("topics.json");
+                myfile.Close();
+                
             }
             else
             {
-
+                using (StreamReader r = new StreamReader("topics.json"))
+                {
+                    string jsoninput = r.ReadToEnd();
+                    topics = JsonSerializer.Deserialize<List<Topic>>(jsoninput);
+                }
             }
+            
+            
 
             while (true)
             {
-                Console.WriteLine("1 - add a topic, 2 - list topics, 0 - exit. Choose number to continue.");
+                Console.WriteLine("1 - add a topic, 2 - list topics, 3 - delete topic, 0 - exit. Choose number to continue.");
 
                 int choice;
 
@@ -43,11 +52,11 @@ namespace Learning_Diary_EL
                 }
                 else if (choice == 2)
                 {
+                    Console.WriteLine();
                     foreach (Topic t in topics)
                     {
-                        Console.WriteLine(t);
+                        Console.WriteLine(t.Id + ": " + t.Title);
                     }
-
                     Console.WriteLine();
                 }
                 else if (choice == 1)
@@ -56,10 +65,28 @@ namespace Learning_Diary_EL
                     Console.WriteLine("Topic added.");
                     Console.WriteLine();
                 }
+                else if (choice == 3)
+                {
+                    topics = DeleteTopic(topics);
+                }
             }
+
+            string json = JsonSerializer.Serialize(topics);
+            
+            File.WriteAllText("topics.json", json);
+
+
         }
 
-        static Topic AddTopic()
+        public static List<Topic> DeleteTopic(List<Topic> topics)
+        {
+            Console.WriteLine("Which topic do you want to delete? Input id: ");
+            int inputId = int.Parse(Console.ReadLine());
+
+            return topics.Where(t => t.Id != inputId).ToList();
+        }
+
+        public static Topic AddTopic()
         {
             int id;
 

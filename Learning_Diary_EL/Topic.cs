@@ -4,13 +4,13 @@ namespace Learning_Diary_EL
 {
     public class Topic
     {
-        public int Id;
-        public string Title;
-        public string Description;
-        public double EstimatedTimeToMaster;
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public double EstimatedTimeToMaster { get; set; }
         public double TimeSpent { get; set; }
-        public string Source;
-        public DateTime StartLearningDate;
+        public string Source { get; set; }
+        public DateTime StartLearningDate { get; set; }
         public bool InProgress { get; set; }
         public DateTime CompletionDate { get; set; }
 
@@ -39,7 +39,7 @@ namespace Learning_Diary_EL
                                  "Started learning: {6}\n" +
                                  "In progress: {7}\n" +
                                  "Estimated completion: {8}", Id, Title, Description, EstimatedTimeToMaster, TimeSpent,
-                Source, StartLearningDate.Date, InProgress, CompletionDate.Date);
+                Source, StartLearningDate.Date.ToShortDateString(), InProgress, CompletionDate.Date.ToShortDateString());
         }
     }
 }
