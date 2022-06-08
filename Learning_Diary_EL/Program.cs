@@ -55,7 +55,9 @@ namespace Learning_Diary_EL
                     Console.WriteLine();
                     foreach (Topic t in topics)
                     {
-                        Console.WriteLine(t.Id + ": " + t.Title);
+                        Console.WriteLine(t);
+                        Console.WriteLine();
+                        //Console.WriteLine(t.Id + ": " + t.Title);
                     }
                     Console.WriteLine();
                 }
