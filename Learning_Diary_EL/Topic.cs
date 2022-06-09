@@ -31,7 +31,6 @@ namespace Learning_Diary_EL
             CompletionDate = DateTime.MaxValue;
             Tasks = new List<Task>();
         }
-
         public void CompleteTopic()
         {
             InProgress = false;
@@ -39,7 +38,6 @@ namespace Learning_Diary_EL
             TimeSpan spentTime = CompletionDate - StartLearningDate;
             TimeSpent = spentTime.TotalDays;
         }
-
         public void AddTask()
         {
             Console.WriteLine("Enter task name: ");
@@ -59,7 +57,6 @@ namespace Learning_Diary_EL
             Task newTask = new Task(name, description, deadline, choice);
             Tasks.Add(newTask);
         }
-
         public void PrintTasks()
         {
             foreach (Task t in Tasks)
@@ -68,8 +65,6 @@ namespace Learning_Diary_EL
                 Console.WriteLine();
             }
         }
-
-
         public override string ToString()
         {
             if (!InProgress)
@@ -98,8 +93,6 @@ namespace Learning_Diary_EL
                                  "Started: {6}\n" +
                                  "In progress: Yes\n", Id, Title, Description, EstimatedTimeToMaster, String.Format("{0:0.#}", TimeSpent),
                 Source, StartLearningDate.Date.ToShortDateString());
-            
-            
         }
         public class Task
         {
@@ -109,15 +102,14 @@ namespace Learning_Diary_EL
             public List<string> Notes { get; private set; }
             public DateTime Deadline { get; private set; }
             public bool Done { get; private set; }
-            public Enum Priority { get; set; }
+            public int Priority { get; set; }
 
-            public enum PriorityLevel
-            {
-                Low,
-                Medium,
-                High
-            }
-
+            //public enum PriorityLevel
+            //{
+            //    Low,
+            //    Medium,
+            //    High
+            //}
             public Task(string title, string description, DateTime deadline, int priority)
             {
                 Random r = new Random();
@@ -127,19 +119,16 @@ namespace Learning_Diary_EL
                 Notes = new List<string>();
                 Deadline = deadline;
                 Done = false;
-                Priority = (PriorityLevel)priority;
+                Priority = priority;
             }
-
             public void CompleteTask()
             {
                 Done = true;
             }
-
             public void AddNote(string note)
             {
                 Notes.Add(note);
             }
-
             public void PrintNotes()
             {
                 foreach (string n in Notes)
@@ -147,7 +136,6 @@ namespace Learning_Diary_EL
                     Console.WriteLine(n);
                 }
             }
-
             public override string ToString()
             {
                 string stringBool = String.Empty;
@@ -163,7 +151,6 @@ namespace Learning_Diary_EL
                 return string.Format(
                     "Task id: {0}\nTitle: {1}\nDescription{2}\nDeadline: {3}\nPriority: {4}\nFinished: {5}", Id, Title, Description, Deadline.ToShortDateString(), Priority, stringBool);
             }
-
         }
     }
 }
