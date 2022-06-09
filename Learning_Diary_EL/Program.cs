@@ -17,7 +17,6 @@ namespace Learning_Diary_EL
             {
                 var myfile = File.CreateText("topics.json");
                 myfile.Close();
-                
             }
             else
             {
@@ -27,18 +26,21 @@ namespace Learning_Diary_EL
                     topics = JsonSerializer.Deserialize<List<Topic>>(jsoninput);
                 }
             }
-            
-            
 
             while (true)
             {
-                Console.WriteLine("1 - add a topic, 2 - list topics, 3 - delete topic, 0 - exit. Choose number to continue.");
+                Console.WriteLine("1 - add a topic, 2 - list topics, 3 - delete topic, 4 - edit topic, 0 - exit. Choose number to continue.");
 
                 int choice;
 
                 try
                 {
                     choice = int.Parse(Console.ReadLine());
+                    if (choice > 5 || choice < 0)
+                    {
+                        Console.WriteLine("Invalid input. Try again.");
+                        continue;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -50,138 +52,172 @@ namespace Learning_Diary_EL
                 {
                     break;
                 }
-                else if (choice == 2)
-                {
-                    Console.WriteLine();
-                    foreach (Topic t in topics)
-                    {
-                        Console.WriteLine(t);
-                        Console.WriteLine();
-                        //Console.WriteLine(t.Id + ": " + t.Title);
-                    }
-                    Console.WriteLine();
-                }
                 else if (choice == 1)
                 {
                     topics.Add(AddTopic());
                     Console.WriteLine("Topic added.");
                     Console.WriteLine();
                 }
+                else if (choice == 2)
+                {
+                    Console.WriteLine();
+                    foreach (Topic t in topics)
+                    {
+                        Console.WriteLine(t);
+                        //Console.WriteLine(t.Id + ": " + t.Title);
+                        Console.WriteLine();
+                    }
+                }
                 else if (choice == 3)
                 {
                     topics = DeleteTopic(topics);
                 }
+                else if (choice == 4)
+                {
+                    foreach (Topic t in topics)
+                    {
+                        Console.WriteLine(t.Id + ": " + t.Title);
+                    }
+
+                    Console.WriteLine("Enter topic ID to choose which topic to edit: ");
+
+                    int topicChoice = int.Parse(Console.ReadLine());
+
+                    Topic topicToEdit = new Topic("plop", "plop", 1, "plop"); //placeholder object to be overwritten
+
+                    foreach (Topic t in topics)
+                    {
+                        if (t.Id == topicChoice)
+                        {
+                            topicToEdit = t;
+                        }
+                    }
+
+                    EditTopic(topicToEdit);
+
+                }
             }
 
             string json = JsonSerializer.Serialize(topics);
-            
+
+            var myfile2 = File.CreateText("topics.json");
+            myfile2.Close();
             File.WriteAllText("topics.json", json);
-
-
         }
 
         public static List<Topic> DeleteTopic(List<Topic> topics)
         {
             Console.WriteLine("Which topic do you want to delete? Input id: ");
             int inputId = int.Parse(Console.ReadLine());
-
             return topics.Where(t => t.Id != inputId).ToList();
         }
 
         public static Topic AddTopic()
         {
-            int id;
-
-            while (true)
-            {
-                Console.WriteLine("Give your topic an id: ");
-                try
-                {
-                    id = int.Parse(Console.ReadLine());
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Invalid id. Try again.");
-                    continue;
-                }
-
-                break;
-            }
-
             Console.WriteLine("Give your topic a title: ");
             string title = Console.ReadLine();
 
             Console.WriteLine("Give your topic a description: ");
             string description = Console.ReadLine();
 
-            Console.WriteLine("Estimate the time it takes to learn this topic: ");
+            Console.WriteLine("Estimate the amount of days it takes to learn this topic at an average rate: ");
             double estimatedTimeToMaster = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine("What is the time spent so far: ");
-            double timeSpent = Convert.ToDouble(Console.ReadLine());
 
             Console.WriteLine("What is the source material? e.g. url/book:");
             string source = Console.ReadLine();
 
-            DateTime startLearningDate = new DateTime();
+            return new Topic(title, description, estimatedTimeToMaster, source);
+        }
 
+        public static void EditTopic(Topic topicToEdit)
+        {
             while (true)
             {
-                try
+                Console.WriteLine(topicToEdit);
+                Console.WriteLine();
+                Console.WriteLine("1 - add task to topic, 2 - list tasks, 3 - mark task as complete, 4 - delete task, 5 - edit task, 0 - go back");
+
+                int editChoice = int.Parse(Console.ReadLine());
+
+                if (editChoice == 0)
                 {
-                    Console.WriteLine("What is the date this topic was started? Give in format: YYYY/MM/DD");
-                    string date = Console.ReadLine();
-                    string[] dateString = date.Split("/");
-                    int days = int.Parse(dateString[2]);
-                    int months = int.Parse(dateString[1]);
-                    int year = int.Parse(dateString[0]);
-                    startLearningDate = new DateTime(year, months, days);
-                    
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error. Try giving the date again.");
-                    continue;
-                }
-                break;
-            }
-
-            bool inProgress = true;
-            
-            DateTime completionDate = new DateTime();
-
-            while (true)
-            {
-                try
-                {
-                    Console.WriteLine("What is the date this topic was finished? Write 'no' if not finished, otherwise give in format: YYYY/MM/DD");
-                    string date = Console.ReadLine();
-
-                    if (date == "no")
-                    {
-                        break;
-                    }
-
-                    string[] dateString = date.Split("/");
-                    int days = int.Parse(dateString[2]);
-                    int months = int.Parse(dateString[1]);
-                    int year = int.Parse(dateString[0]);
-                    completionDate = new DateTime(year, months, days);
-                    inProgress = false;
-
                     break;
                 }
-                catch (Exception e)
+                else if (editChoice == 1)
                 {
-                    Console.WriteLine("Error. Try giving the date again.");
-                    continue;
+                    topicToEdit.AddTask();
+                }
+                else if (editChoice == 2)
+                {
+                    topicToEdit.PrintTasks();
+                }
+                else if (editChoice == 3)
+                {
+                    topicToEdit.PrintTasks();
+
+                    Console.WriteLine("Give task ID to mark as complete: ");
+                    int taskChoiceId = int.Parse(Console.ReadLine());
+
+                    foreach (Topic.Task t in topicToEdit.Tasks)
+                    {
+                        if (t.Id == taskChoiceId)
+                        {
+                            t.CompleteTask();
+                        }
+                    }
+
+                    Console.WriteLine("Task marked as complete. ");
+                }
+                else if (editChoice == 4)
+                {
+                    topicToEdit.PrintTasks();
+                    Console.WriteLine("Enter ID of task to delete: ");
+                    int deleteChoice = int.Parse(Console.ReadLine());
+                    topicToEdit.Tasks = topicToEdit.Tasks.Where(t => t.Id != deleteChoice).ToList();
+                    Console.WriteLine("Task deleted. ");
+                }
+                else if (editChoice == 5)
+                {
+                    topicToEdit.PrintTasks();
+                    Console.WriteLine("Enter ID of task to edit: ");
+                    int taskChoice = int.Parse(Console.ReadLine());
+
+                    Topic.Task taskToEdit = new Topic.Task("plop", "plip", DateTime.Now, 1); //placeholder
+
+                    foreach (Topic.Task t in topicToEdit.Tasks)
+                    {
+                        if (taskChoice == t.Id)
+                        {
+                            taskToEdit = t;
+                        }
+                    }
+
+                    while (true)
+                    {
+                        Console.WriteLine("1 - print task, 2 - print notes, 3 - add note, 0 - go back");
+                        int taskLoopChoice = int.Parse(Console.ReadLine());
+
+                        if (taskLoopChoice == 1)
+                        {
+                            Console.WriteLine(taskToEdit);
+                        }
+                        else if (taskLoopChoice == 2)
+                        {
+                            taskToEdit.PrintNotes();
+                        }
+                        else if (taskLoopChoice == 3)
+                        {
+                            Console.WriteLine("Input note to add: ");
+                            string noteToAdd = Console.ReadLine();
+                            taskToEdit.AddNote(noteToAdd);
+                        }
+                        else if (taskLoopChoice == 0)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
-
-            Topic topicToAdd = new Topic(id, title, description, estimatedTimeToMaster, timeSpent, source,
-                startLearningDate, inProgress, completionDate);
-
-            return topicToAdd;
         }
     }
 }
