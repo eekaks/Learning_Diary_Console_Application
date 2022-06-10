@@ -86,7 +86,7 @@ namespace Learning_Diary_EL
 
                     int topicChoice = int.Parse(Console.ReadLine());
 
-                    Topic topicToEdit = new Topic("plop", "plop", 1, "plop", 1); //placeholder object to be overwritten
+                    Topic topicToEdit = new Topic("plop", "plop", 1, "plop", 554455); //placeholder object to be overwritten
 
                     foreach (Topic t in topics)
                     {
@@ -137,7 +137,7 @@ namespace Learning_Diary_EL
             Console.WriteLine("Give your topic a description: ");
             string description = Console.ReadLine();
 
-            Console.WriteLine("Estimate the amount of days it takes to learn this topic at an average rate: ");
+            Console.WriteLine("Estimate the amount of days it takes to learn this topic at an average rate. Enter number: ");
             double estimatedTimeToMaster = Convert.ToDouble(Console.ReadLine());
 
             Console.WriteLine("What is the source material? e.g. url/book:");
@@ -219,8 +219,8 @@ namespace Learning_Diary_EL
                     Console.WriteLine("Enter ID of task to edit: ");
                     int taskChoice = int.Parse(Console.ReadLine());
 
-                    Topic.Task taskToEdit = new Topic.Task("plop", "plip", DateTime.Now, 1, 1); //placeholder
-
+                    Topic.Task taskToEdit = new Topic.Task("plop", "plip", DateTime.Now, 1, 554455); //placeholder
+                    
                     foreach (Topic.Task t in topicToEdit.Tasks)
                     {
                         if (taskChoice == t.Id)
