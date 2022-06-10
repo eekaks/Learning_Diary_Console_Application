@@ -5,7 +5,7 @@ namespace Learning_Diary_EL
 {
     public class Topic
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public double EstimatedTimeToMaster { get; set; }
@@ -17,10 +17,9 @@ namespace Learning_Diary_EL
 
         public List<Task> Tasks { get; set; }
 
-        public Topic(string title, string description, double estimatedTimeToMaster, string source)
+        public Topic(string title, string description, double estimatedTimeToMaster, string source, int id)
         {
-            Random r = new Random();
-            Id = r.Next(1, 1000000);
+            Id = id;
             Title = title;
             Description = description;
             EstimatedTimeToMaster = estimatedTimeToMaster;
@@ -54,7 +53,10 @@ namespace Learning_Diary_EL
             Console.WriteLine("What is the priority of this task? 1 - Low, 2 - Medium, 3 - High");
             int choice = int.Parse(Console.ReadLine());
 
-            Task newTask = new Task(name, description, deadline, choice);
+            Random r = new Random();
+            int id = r.Next(1, 1000000);
+
+            Task newTask = new Task(name, description, deadline, choice, id);
             Tasks.Add(newTask);
         }
         public void PrintTasks()
@@ -110,10 +112,9 @@ namespace Learning_Diary_EL
             //    Medium,
             //    High
             //}
-            public Task(string title, string description, DateTime deadline, int priority)
+            public Task(string title, string description, DateTime deadline, int priority, int id)
             {
-                Random r = new Random();
-                Id = r.Next(1, 1000000);
+                Id = id;
                 Title = title;
                 Description = description;
                 Notes = new List<string>();
@@ -131,6 +132,9 @@ namespace Learning_Diary_EL
             }
             public void PrintNotes()
             {
+                Console.WriteLine(new string('*', 30));
+                Console.WriteLine("*" + new string(' ', 11) + "NOTES" + new string(' ', 12) + "*");
+                Console.WriteLine(new string('*', 30));
                 foreach (string n in Notes)
                 {
                     Console.WriteLine(n);
@@ -149,7 +153,7 @@ namespace Learning_Diary_EL
                     stringBool = "No";
                 }
                 return string.Format(
-                    "Task id: {0}\nTitle: {1}\nDescription{2}\nDeadline: {3}\nPriority: {4}\nFinished: {5}", Id, Title, Description, Deadline.ToShortDateString(), Priority, stringBool);
+                    "Task id: {0}\nTitle: {1}\nDescription: {2}\nDeadline: {3}\nPriority: {4}\nFinished: {5}", Id, Title, Description, Deadline.ToShortDateString(), Priority, stringBool);
             }
         }
     }
