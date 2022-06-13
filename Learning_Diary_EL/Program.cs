@@ -13,7 +13,7 @@ namespace Learning_Diary_EL
         {
             // read existing file to list
 
-            List<Topic> topics = new List<Topic>();
+            Dictionary<int, Topic> topics = new Dictionary<int, Topic>();
 
             if (!File.Exists("topics.json"))
             {
@@ -25,7 +25,7 @@ namespace Learning_Diary_EL
                 using (StreamReader r = new StreamReader("topics.json"))
                 {
                     string jsoninput = r.ReadToEnd();
-                    topics = JsonSerializer.Deserialize<List<Topic>>(jsoninput);
+                    topics = JsonSerializer.Deserialize<Dictionary<int, Topic>>(jsoninput);
                 }
             }
 
@@ -61,7 +61,8 @@ namespace Learning_Diary_EL
                 }
                 else if (choice == 1)
                 {
-                    topics.Add(AddTopic());
+                    Topic topicToAdd = AddTopic();
+                    topics[topicToAdd.Id] = topicToAdd;
                     Console.WriteLine("Topic added.");
                     Console.WriteLine();
                 }
@@ -76,9 +77,9 @@ namespace Learning_Diary_EL
                 else if (choice == 4)
                 {
                     Console.WriteLine();
-                    foreach (Topic t in topics)
+                    foreach (int key in topics.Keys)
                     {
-                        Console.WriteLine(t.Id + ": " + t.Title);
+                        Console.WriteLine(topics[key].Id + ": " + topics[key].Title);
                     }
                     Console.WriteLine();
 
@@ -86,16 +87,14 @@ namespace Learning_Diary_EL
 
                     int topicChoice = int.Parse(Console.ReadLine());
 
-                    Topic topicToEdit = new Topic("plop", "plop", 1, "plop", 554455); //placeholder object to be overwritten
-
-                    foreach (Topic t in topics)
+                    if (topics.ContainsKey(topicChoice))
                     {
-                        if (t.Id == topicChoice)
-                        {
-                            topicToEdit = t;
-                        }
+                        EditTopic(topics[topicChoice]);
                     }
-                    EditTopic(topicToEdit);
+                    else
+                    {
+                        Console.WriteLine("Topic not found.");
+                    }
                 }
             }
 
@@ -108,22 +107,32 @@ namespace Learning_Diary_EL
             File.WriteAllText("topics.json", json);
         }
 
-        public static List<Topic> DeleteTopic(List<Topic> topics)
+        public static Dictionary<int, Topic> DeleteTopic(Dictionary<int, Topic> topics)
         {
             Console.WriteLine("Which topic do you want to delete? Input id: ");
+
             int inputId = int.Parse(Console.ReadLine());
-            return topics.Where(t => t.Id != inputId).ToList();
+
+            if (topics.Remove(inputId))
+            {
+                Console.WriteLine("Topic removed successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Topic not found.");
+            }
+            return topics;
         }
 
-        public static void PrintTopics(List<Topic> topics)
+        public static void PrintTopics(Dictionary<int, Topic> topics)
         {
             Console.WriteLine();
             Console.WriteLine(new string('*', 30));
             Console.WriteLine("*" + new string(' ', 11) + "TOPICS" + new string(' ', 11) + "*");
             Console.WriteLine(new string('*', 30));
-            foreach (Topic t in topics)
+            foreach (int key in topics.Keys)
             {
-                Console.WriteLine(t);
+                Console.WriteLine(topics[key]);
                 //Console.WriteLine(t.Id + ": " + t.Title);
                 //Console.WriteLine();
             }
@@ -181,28 +190,35 @@ namespace Learning_Diary_EL
                 }
                 else if (editChoice == 3)
                 {
-                    topicToEdit.PrintTasks();
+                    topicToEdit.PrintShortTasks();
 
                     Console.WriteLine("Give task ID to mark as complete: ");
                     int taskChoiceId = int.Parse(Console.ReadLine());
 
-                    foreach (Topic.Task t in topicToEdit.Tasks)
+                    if (topicToEdit.Tasks.ContainsKey(taskChoiceId))
                     {
-                        if (t.Id == taskChoiceId)
-                        {
-                            t.CompleteTask();
-                        }
+                        topicToEdit.Tasks[taskChoiceId].CompleteTask();
+                        Console.WriteLine("Task marked as complete.");
                     }
-
-                    Console.WriteLine("Task marked as complete. ");
+                    else
+                    {
+                        Console.WriteLine("Task not found.");
+                    }
                 }
                 else if (editChoice == 4)
                 {
-                    topicToEdit.PrintTasks();
+                    topicToEdit.PrintShortTasks();
                     Console.WriteLine("Enter ID of task to delete: ");
                     int deleteChoice = int.Parse(Console.ReadLine());
-                    topicToEdit.Tasks = topicToEdit.Tasks.Where(t => t.Id != deleteChoice).ToList();
-                    Console.WriteLine("Task deleted. ");
+
+                    if (topicToEdit.Tasks.Remove(deleteChoice))
+                    {
+                        Console.WriteLine("Task deleted successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Task not found.");
+                    }
                 }
                 else if (editChoice == 5)
                 {
@@ -210,25 +226,20 @@ namespace Learning_Diary_EL
                     Console.WriteLine("*" + new string(' ', 11) + "TASKS" + new string(' ', 12) + "*");
                     Console.WriteLine(new string('*', 30));
 
-                    foreach (Topic.Task t in topicToEdit.Tasks)
-                    {
-                        Console.WriteLine(t.Id + ": " + t.Title);
-                    }
+                    topicToEdit.PrintShortTasks();
 
                     Console.WriteLine();
                     Console.WriteLine("Enter ID of task to edit: ");
                     int taskChoice = int.Parse(Console.ReadLine());
 
-                    Topic.Task taskToEdit = new Topic.Task("plop", "plip", DateTime.Now, 1, 554455); //placeholder
-                    
-                    foreach (Topic.Task t in topicToEdit.Tasks)
+                    if (topicToEdit.Tasks.ContainsKey(taskChoice))
                     {
-                        if (taskChoice == t.Id)
-                        {
-                            taskToEdit = t;
-                        }
+                        EditTask(topicToEdit.Tasks[taskChoice]);
                     }
-                    EditTask(taskToEdit);
+                    else
+                    {
+                        Console.WriteLine("Task not found.");
+                    }
                 }
             }
         }

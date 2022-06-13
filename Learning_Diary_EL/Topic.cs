@@ -15,7 +15,7 @@ namespace Learning_Diary_EL
         public bool InProgress { get; private set; }
         public DateTime CompletionDate { get; private set; }
 
-        public List<Task> Tasks { get; set; }
+        public Dictionary<int, Task> Tasks { get; set; }
 
         public Topic(string title, string description, double estimatedTimeToMaster, string source, int id)
         {
@@ -28,7 +28,7 @@ namespace Learning_Diary_EL
             StartLearningDate = DateTime.Now;
             InProgress = true;
             CompletionDate = DateTime.MaxValue;
-            Tasks = new List<Task>();
+            Tasks = new Dictionary<int, Task>();
         }
         public void CompleteTopic()
         {
@@ -57,13 +57,21 @@ namespace Learning_Diary_EL
             int id = r.Next(1, 1000000);
 
             Task newTask = new Task(name, description, deadline, choice, id);
-            Tasks.Add(newTask);
+            Tasks[id] = newTask;
         }
         public void PrintTasks()
         {
-            foreach (Task t in Tasks)
+            foreach (int key in Tasks.Keys)
             {
-                Console.WriteLine(t);
+                Console.WriteLine(Tasks[key]);
+                Console.WriteLine();
+            }
+        }
+        public void PrintShortTasks()
+        {
+            foreach (int key in Tasks.Keys)
+            {
+                Console.WriteLine(Tasks[key].Id + ": " + Tasks[key].Title);
                 Console.WriteLine();
             }
         }
