@@ -10,37 +10,13 @@ namespace Learning_Diary_EL
         static void Main(string[] args)
         {
             // read existing file to dictionary
+            string path = "topics.json";
+            Dictionary<int, Topic> topics = FileIO.ReadFile(path);
 
-            Dictionary<int, Topic> topics = new Dictionary<int, Topic>();
-
-            if (!File.Exists("topics.json"))
-            {
-                var myfile = File.CreateText("topics.json");
-                myfile.Close();
-            }
-            else
-            {
-                using (StreamReader r = new StreamReader("topics.json"))
-                {
-                    string jsoninput = r.ReadToEnd();
-                    topics = JsonSerializer.Deserialize<Dictionary<int, Topic>>(jsoninput);
-                }
-            }
+            // choose localization
+            Dictionary<string, string> inputs = Localization.ChooseLanguage();
             
-            Dictionary<string, string> inputs = new Dictionary<string, string>();
-
-            Console.WriteLine("Choose language, 1 - English, 2 - Suomi: ");
-            int languagechoice = int.Parse(Console.ReadLine());
-            if (languagechoice == 1)
-            {
-                inputs = Localization.dictionary_EN;
-            }
-            else if (languagechoice == 2)
-            {
-                inputs = Localization.dictionary_FI;
-            }
-
-            PrintBanner();
+            Banners.PrintProgramBanner();
 
             // start main program loop
 
@@ -108,14 +84,8 @@ namespace Learning_Diary_EL
                     }
                 }
             }
-
             // when main program loop ends, JSON serialize data and dump into file
-
-            string json = JsonSerializer.Serialize(topics);
-
-            var myfile2 = File.CreateText("topics.json");
-            myfile2.Close();
-            File.WriteAllText("topics.json", json);
+            FileIO.WriteFile(topics, path);
         }
 
         public static Dictionary<int, Topic> DeleteTopic(Dictionary<int, Topic> topics, Dictionary<string, string> inputs)
@@ -138,9 +108,8 @@ namespace Learning_Diary_EL
         public static void PrintTopics(Dictionary<int, Topic> topics, Dictionary<string, string> inputs)
         {
             Console.WriteLine();
-            Console.WriteLine(new string('*', 30));
-            Console.WriteLine("*" + new string(' ', 11) + inputs["topicstitle"] + new string(' ', 11) + "*");
-            Console.WriteLine(new string('*', 30));
+            Banners.PrintBanner(inputs["topicstitle"]);
+
             foreach (int key in topics.Keys)
             {
                 Console.WriteLine(topics[key].ToString(inputs));
@@ -173,9 +142,8 @@ namespace Learning_Diary_EL
 
             while (true)
             {
-                Console.WriteLine(new string('*', 30));
-                Console.WriteLine("*" + new string(' ', 11) + inputs["topictitle"] + new string(' ', 12) + "*");
-                Console.WriteLine(new string('*', 30));
+                Banners.PrintBanner(inputs["topictitle"]);
+
                 Console.WriteLine(topicToEdit.ToString(inputs));
                 
                 Console.WriteLine(inputs["topicmenu"]); // "1 - add task to topic" + "\n" + "2 - list tasks" + "\n" + "3 - edit topic information" + "\n" + "4 - delete task" + "\n" + "5 - edit task" + "\n" + "6 - mark topic as complete" + "\n" + "0 - go back." + "\n" + "Enter number to continue: "
@@ -192,9 +160,7 @@ namespace Learning_Diary_EL
                 }
                 else if (editChoice == 2)
                 {
-                    Console.WriteLine(new string('*', 30));
-                    Console.WriteLine("*" + new string(' ', 11) + inputs["taskstitle"] + new string(' ', 12) + "*");
-                    Console.WriteLine(new string('*', 30));
+                    Banners.PrintBanner(inputs["taskstitle"]);
                     topicToEdit.PrintTasks(inputs);
                 }
                 else if (editChoice == 3)
@@ -218,9 +184,7 @@ namespace Learning_Diary_EL
                 }
                 else if (editChoice == 5)
                 {
-                    Console.WriteLine(new string('*', 30));
-                    Console.WriteLine("*" + new string(' ', 11) + inputs["taskstitle"] + new string(' ', 12) + "*");
-                    Console.WriteLine(new string('*', 30));
+                    Banners.PrintBanner(inputs["taskstitle"]);
 
                     topicToEdit.PrintShortTasks();
 
@@ -245,15 +209,14 @@ namespace Learning_Diary_EL
             }
         }
 
-        public static void EditTask(Topic.Task taskToEdit, Dictionary<string, string> inputs)
+        public static void EditTask(Task taskToEdit, Dictionary<string, string> inputs)
         {
             // this is another nested loop to edit a task
 
             while (true)
             {
-                Console.WriteLine(new string('*', 30));
-                Console.WriteLine("*" + new string(' ', 12) + inputs["tasktitle"] + new string(' ', 12) + "*");
-                Console.WriteLine(new string('*', 30));
+                Banners.PrintBanner(inputs["tasktitle"]);
+
                 Console.WriteLine(taskToEdit.ToString(inputs));
                 Console.WriteLine();
 
@@ -285,15 +248,5 @@ namespace Learning_Diary_EL
                 }
             }
         }
-        public static void PrintBanner()
-        {
-            Console.WriteLine(@" __         _______     ___      .______     .__   __.  __  .__   __.   _______    _______    __       ___      .______     ____    ____");
-            Console.WriteLine(@"|  |      |   ____ |   /   \     |   _  \    |  \ |  | |  | |  \ |  |  /  _____|   |       \ |  |     /   \     |   _  \    \   \  /   /");
-            Console.WriteLine(@"|  |      |  | __     /  ^  \    |  | _) |   |   \|  | |  | |   \|  | |  |  __     |  .--.  ||  |    /  ^  \    |  | _) |    \   \/   /");
-            Console.WriteLine(@"|  |      |   __ |   /  /_\  \   |      /    |  . `  | |  | |  . `  | |  | | _|    |  |  |  ||  |   /  /_\  \   |      /      \_    _/");
-            Console.WriteLine(@"|  `----. |  | ____ /  _____  \  |  |\  \----|  |\   | |  | |  |\   | |  |__| |    |  '--'  ||  |  /  _____  \  |  |\  \----.   |  |");
-            Console.WriteLine(@"| _______|| _______/__/     \__\ | _| `._____|__| \__| |__| |__| \__|  \______|    |_______/ |__| /__/     \__\ | _| `._____|   |__|"); 
-        }
     }
-    
 }

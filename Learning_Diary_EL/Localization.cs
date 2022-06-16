@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Learning_Diary_EL
 {
@@ -134,5 +135,22 @@ namespace Learning_Diary_EL
             { "taskstitle", "TEHTÄVÄT" },
             { "notestitle", "MUISTIINPANOT" }
         };
+        public static Dictionary<string, string> ChooseLanguage()
+        {
+            Console.WriteLine("Choose language, 1 - English, 2 - Suomi: ");
+            int languagechoice = int.Parse(Console.ReadLine());
+            if (languagechoice == 1)
+            {
+                return dictionary_EN;
+            }
+            else if (languagechoice == 2)
+            {
+                return dictionary_FI;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

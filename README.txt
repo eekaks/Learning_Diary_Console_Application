@@ -11,3 +11,5 @@ You navigate giving number commands and there are three levels to the app:
 The app is missing lots of input validation and functionality still, but it should be usable.
 
 The data is read from and saved to a file at startup and end.
+
+The program is localized to English and Finnish.
