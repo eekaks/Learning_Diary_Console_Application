@@ -2,7 +2,7 @@
 
 namespace Learning_Diary_EL
 {
-    class Banners
+    class UserUI
     {
         public static void PrintProgramBanner()
         {
@@ -26,6 +26,55 @@ namespace Learning_Diary_EL
             Console.WriteLine("*" + new string(' ', emptiesLeft) + title + new string(' ', emptiesRight) + "*");
             Console.WriteLine(new string('*', 30));
             Console.WriteLine();
+        }
+
+        public static int GetInt(string prompt, string error)
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine(prompt);
+                    int input = int.Parse(Console.ReadLine());
+                    return input;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(error);
+                }
+            }
+        }
+        public static double GetDouble(string prompt, string error)
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine(prompt);
+                    double input = double.Parse(Console.ReadLine());
+                    return input;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(error);
+                }
+            }
+        }
+        public static DateTime GetDateTime(string prompt, string error)
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine(prompt);
+                    DateTime input = DateTime.Parse(Console.ReadLine());
+                    return input;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(error);
+                }
+            }
         }
     }
 }

@@ -14,72 +14,58 @@ namespace Learning_Diary_EL
             // choose localization
             Dictionary<string, string> inputs = Localization.ChooseLanguage();
             
-            Banners.PrintProgramBanner();
+            UserUI.PrintProgramBanner();
 
             // start main program loop
+            bool programRunning = true;
 
-            while (true)
+            while (programRunning)
             {
-                Console.WriteLine();
-                Console.WriteLine(inputs["mainmenu"]); //"1 - add a topic" + "\n" + "2 - list topics" + "\n" + "3 - delete topic" + "\n" + "4 - edit topic" + "\n" + "0 - save & exit." + "\n" + "Enter number to continue:"
+                int choice = UserUI.GetInt(inputs["mainmenu"], inputs["invalid"]);  //"1 - add a topic" + "\n" + "2 - list topics" + "\n" + "3 - delete topic" + "\n" + "4 - edit topic" + "\n" + "0 - save & exit." + "\n" + "Enter number to continue:"
 
-                int choice;
-
-                try
+                switch (choice)
                 {
-                    choice = int.Parse(Console.ReadLine());
-                    if (choice > 5 || choice < 0)
-                    {
+                    case 0:
+                        programRunning = false;
+                        break;
+
+                    case 1:
+                        Topic topicToAdd = AddTopic(inputs);
+                        topics[topicToAdd.Id] = topicToAdd;
+                        Console.WriteLine(inputs["topicadded"]);
+                        break;
+
+                    case 2:
+                        PrintTopics(topics, inputs);
+                        break;
+
+                    case 3:
+                        topics = DeleteTopic(topics, inputs);
+                        break;
+
+                    case 4:
+                        Console.WriteLine();
+                        foreach (int key in topics.Keys)
+                        {
+                            Console.WriteLine(topics[key].Id + ": " + topics[key].Title);
+                        }
+                        Console.WriteLine();
+
+                        int topicChoice = UserUI.GetInt(inputs["entertopiceditid"], inputs["invalid"]);
+
+                        if (topics.ContainsKey(topicChoice))
+                        {
+                            EditTopic(topics[topicChoice], inputs);
+                        }
+                        else
+                        {
+                            Console.WriteLine(inputs["topicnotfound"]);
+                        }
+                        break;
+
+                    default:
                         Console.WriteLine(inputs["invalid"]);
-                        continue;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(inputs["invalid"]);
-                    continue;
-                }
-
-                if (choice == 0)
-                {
-                    break;
-                }
-                else if (choice == 1)
-                {
-                    Topic topicToAdd = AddTopic(inputs);
-                    topics[topicToAdd.Id] = topicToAdd;
-                    Console.WriteLine(inputs["topicadded"]);
-                    Console.WriteLine();
-                }
-                else if (choice == 2)
-                {
-                    PrintTopics(topics, inputs);
-                }
-                else if (choice == 3)
-                {
-                    topics = DeleteTopic(topics, inputs);
-                }
-                else if (choice == 4)
-                {
-                    Console.WriteLine();
-                    foreach (int key in topics.Keys)
-                    {
-                        Console.WriteLine(topics[key].Id + ": " + topics[key].Title);
-                    }
-                    Console.WriteLine();
-
-                    Console.WriteLine(inputs["entertopiceditid"]);
-
-                    int topicChoice = int.Parse(Console.ReadLine());
-
-                    if (topics.ContainsKey(topicChoice))
-                    {
-                        EditTopic(topics[topicChoice], inputs);
-                    }
-                    else
-                    {
-                        Console.WriteLine(inputs["topicnotfound"]);
-                    }
+                        break;
                 }
             }
             // when main program loop ends, JSON serialize data and dump into file
@@ -88,9 +74,7 @@ namespace Learning_Diary_EL
 
         public static Dictionary<int, Topic> DeleteTopic(Dictionary<int, Topic> topics, Dictionary<string, string> inputs)
         {
-            Console.WriteLine(inputs["entertopicdeleteid"]);
-
-            int inputId = int.Parse(Console.ReadLine());
+            int inputId = UserUI.GetInt(inputs["entertopicdeleteid"], inputs["invalid"]);
 
             if (topics.Remove(inputId))
             {
@@ -106,7 +90,7 @@ namespace Learning_Diary_EL
         public static void PrintTopics(Dictionary<int, Topic> topics, Dictionary<string, string> inputs)
         {
             Console.WriteLine();
-            Banners.PrintBanner(inputs["topicstitle"]);
+            UserUI.PrintBanner(inputs["topicstitle"]);
 
             foreach (int key in topics.Keys)
             {
@@ -122,8 +106,7 @@ namespace Learning_Diary_EL
             Console.WriteLine(inputs["entertopicdesc"]);
             string description = Console.ReadLine();
 
-            Console.WriteLine(inputs["enterdays"]);
-            double estimatedTimeToMaster = Convert.ToDouble(Console.ReadLine());
+            double estimatedTimeToMaster = UserUI.GetDouble(inputs["enterdays"], inputs["invalid"]);
 
             Console.WriteLine(inputs["entersource"]);
             string source = Console.ReadLine();
@@ -138,71 +121,75 @@ namespace Learning_Diary_EL
         {
             //this is a nested loop in the program logic to edit a topic
 
-            while (true)
+            bool topicEditRunning = true;
+
+            while (topicEditRunning)
             {
-                Banners.PrintBanner(inputs["topictitle"]);
+                UserUI.PrintBanner(inputs["topictitle"]);
 
                 Console.WriteLine(topicToEdit.ToString(inputs));
-                
-                Console.WriteLine(inputs["topicmenu"]); // "1 - add task to topic" + "\n" + "2 - list tasks" + "\n" + "3 - edit topic information" + "\n" + "4 - delete task" + "\n" + "5 - edit task" + "\n" + "6 - mark topic as complete" + "\n" + "0 - go back." + "\n" + "Enter number to continue: "
 
-                int editChoice = int.Parse(Console.ReadLine());
+                int editChoice = UserUI.GetInt(inputs["topicmenu"], inputs["invalid"]); // "1 - add task to topic" + "\n" + "2 - list tasks" + "\n" + "3 - edit topic information" + "\n" + "4 - delete task" + "\n" + "5 - edit task" + "\n" + "6 - mark topic as complete" + "\n" + "0 - go back." + "\n" + "Enter number to continue: "
 
-                if (editChoice == 0)
-                {
-                    break;
-                }
-                else if (editChoice == 1)
-                {
-                    topicToEdit.AddTask(inputs);
-                }
-                else if (editChoice == 2)
-                {
-                    Banners.PrintBanner(inputs["taskstitle"]);
-                    topicToEdit.PrintTasks(inputs);
-                }
-                else if (editChoice == 3)
-                {
-                    topicToEdit.EditTopicInfo(inputs);
-                }
-                else if (editChoice == 4)
-                {
-                    topicToEdit.PrintShortTasks();
-                    Console.WriteLine(inputs["entertaskdeleteid"]);
-                    int deleteChoice = int.Parse(Console.ReadLine());
 
-                    if (topicToEdit.Tasks.Remove(deleteChoice))
-                    {
-                        Console.WriteLine(inputs["taskdeletesuccess"]);
-                    }
-                    else
-                    {
-                        Console.WriteLine(inputs["tasknotfound"]);
-                    }
-                }
-                else if (editChoice == 5)
+                switch (editChoice)
                 {
-                    Banners.PrintBanner(inputs["taskstitle"]);
+                    case 0:
+                        topicEditRunning = false;
+                        break;
 
-                    topicToEdit.PrintShortTasks();
+                    case 1:
+                        topicToEdit.AddTask(inputs);
+                        break;
 
-                    Console.WriteLine();
-                    Console.WriteLine(inputs["entertaskeditid"]);
-                    int taskChoice = int.Parse(Console.ReadLine());
+                    case 2:
+                        UserUI.PrintBanner(inputs["taskstitle"]);
+                        topicToEdit.PrintTasks(inputs);
+                        break;
 
-                    if (topicToEdit.Tasks.ContainsKey(taskChoice))
-                    {
-                        EditTask(topicToEdit.Tasks[taskChoice], inputs);
-                    }
-                    else
-                    {
-                        Console.WriteLine(inputs["tasknotfound"]);
-                    }
-                }
-                else if (editChoice == 6)
-                {
-                    topicToEdit.CompleteTopic();
-                    Console.WriteLine(inputs["topiccompleted"]);
+                    case 3:
+                        topicToEdit.EditTopicInfo(inputs);
+                        break;
+
+                    case 4:
+                        topicToEdit.PrintShortTasks();
+                        int deleteChoice = UserUI.GetInt(inputs["entertaskdeleteid"], inputs["invalid"]);
+
+                        if (topicToEdit.Tasks.Remove(deleteChoice))
+                        {
+                            Console.WriteLine(inputs["taskdeletesuccess"]);
+                        }
+                        else
+                        {
+                            Console.WriteLine(inputs["tasknotfound"]);
+                        }
+                        break;
+
+                    case 5:
+                        UserUI.PrintBanner(inputs["taskstitle"]);
+
+                        topicToEdit.PrintShortTasks();
+
+                        int taskChoice = UserUI.GetInt(inputs["entertaskeditid"], inputs["invalid"]);
+
+                        if (topicToEdit.Tasks.ContainsKey(taskChoice))
+                        {
+                            EditTask(topicToEdit.Tasks[taskChoice], inputs);
+                        }
+                        else
+                        {
+                            Console.WriteLine(inputs["tasknotfound"]);
+                        }
+                        break;
+
+                    case 6:
+                        topicToEdit.CompleteTopic();
+                        Console.WriteLine(inputs["topiccompleted"]);
+                        break;
+
+                    default:
+                        Console.WriteLine(inputs["invalid"]);
+                        break;
                 }
             }
         }
@@ -211,38 +198,44 @@ namespace Learning_Diary_EL
         {
             // this is another nested loop to edit a task
 
-            while (true)
-            {
-                Banners.PrintBanner(inputs["tasktitle"]);
+            bool taskEditRunning = true;
 
+            while (taskEditRunning)
+            {
+                UserUI.PrintBanner(inputs["tasktitle"]);
                 Console.WriteLine(taskToEdit.ToString(inputs));
                 Console.WriteLine();
 
-                Console.WriteLine(inputs["taskmenu"]); // "1 - edit task information" + "\n" + "2 - print notes" + "\n" + "3 - add note" + "\n" + "4 - mark task as complete" + "\n" + "0 - go back." + "\n" + "Enter number to continue: "
-                int taskLoopChoice = int.Parse(Console.ReadLine());
+                int taskLoopChoice = UserUI.GetInt(inputs["taskmenu"], inputs["invalid"]); // "1 - edit task information" + "\n" + "2 - print notes" + "\n" + "3 - add note" + "\n" + "4 - mark task as complete" + "\n" + "0 - go back." + "\n" + "Enter number to continue: "
 
-                if (taskLoopChoice == 1)
+                switch (taskLoopChoice)
                 {
-                    taskToEdit.EditTaskInfo(inputs);
-                }
-                else if (taskLoopChoice == 2)
-                {
-                    taskToEdit.PrintNotes(inputs);
-                    Console.WriteLine();
-                }
-                else if (taskLoopChoice == 3)
-                {
-                    Console.WriteLine(inputs["inputnote"]);
-                    string noteToAdd = Console.ReadLine();
-                    taskToEdit.AddNote(noteToAdd);
-                }
-                else if (taskLoopChoice == 4)
-                {
-                    taskToEdit.CompleteTask();
-                }
-                else if (taskLoopChoice == 0)
-                {
-                    break;
+                    case 0:
+                        taskEditRunning = false;
+                        break;
+
+                    case 1:
+                        taskToEdit.EditTaskInfo(inputs);
+                        break;
+
+                    case 2:
+                        taskToEdit.PrintNotes(inputs);
+                        Console.WriteLine();
+                        break;
+
+                    case 3:
+                        Console.WriteLine(inputs["inputnote"]);
+                        string noteToAdd = Console.ReadLine();
+                        taskToEdit.AddNote(noteToAdd);
+                        break;
+
+                    case 4:
+                        taskToEdit.CompleteTask();
+                        break;
+
+                    default:
+                        Console.WriteLine(inputs["invalid"]);
+                        break;
                 }
             }
         }

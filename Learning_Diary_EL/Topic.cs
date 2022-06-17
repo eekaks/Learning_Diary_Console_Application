@@ -43,15 +43,8 @@ namespace Learning_Diary_EL
             string name = Console.ReadLine();
             Console.WriteLine(inputs["entertaskdesc"]);
             string description = Console.ReadLine();
-            Console.WriteLine(inputs["entertaskdl"]);
-            string date = Console.ReadLine();
-            String[] dateString = date.Split("/");
-            int year = int.Parse(dateString[0]);
-            int months = int.Parse(dateString[1]);
-            int days = int.Parse(dateString[2]);
-            DateTime deadline = new DateTime(year, months, days);
-            Console.WriteLine(inputs["entertaskprio"]);
-            int choice = int.Parse(Console.ReadLine());
+            DateTime deadline = UserUI.GetDateTime(inputs["entertaskdl"], inputs["invalid"]);
+            int choice = UserUI.GetInt(inputs["entertaskprio"], inputs["invalid"]);
 
             Random r = new Random();
             int id = r.Next(1, 1000000);
@@ -72,10 +65,9 @@ namespace Learning_Diary_EL
             this.Description = Console.ReadLine();
             Console.WriteLine();
             Console.WriteLine(inputs["daysmaster"] + this.EstimatedTimeToMaster);
-            Console.WriteLine(inputs["enterdays"]);
-            this.EstimatedTimeToMaster = int.Parse(Console.ReadLine());
+            this.EstimatedTimeToMaster = UserUI.GetDouble(inputs["enterdays"], inputs["invalid"]);
             Console.WriteLine();
-            Console.WriteLine(inputs["source"] + this.Source);
+            Console.WriteLine(inputs["sourcemat"] + this.Source);
             Console.WriteLine(inputs["entersource"]);
             this.Source = Console.ReadLine();
         }

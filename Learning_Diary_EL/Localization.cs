@@ -9,11 +9,11 @@ namespace Learning_Diary_EL
         {
             {
                 "mainmenu",
-                "1 - add a topic" + "\n" + "2 - list topics" + "\n" + "3 - delete topic" + "\n" +
+                "\n1 - add a topic" + "\n" + "2 - list topics" + "\n" + "3 - delete topic" + "\n" +
                 "4 - edit topic" + "\n" + "0 - save & exit." + "\n" + "Enter number to continue:"
             },
             { "invalid", "Invalid input. Try again." },
-            { "topicadded", "Topic added." },
+            { "topicadded", "Topic added.\n" },
             { "entertopiceditid", "Enter topic ID to choose which topic to edit: " },
             { "topicnotfound", "Topic not found." },
             { "entertopicdeleteid", "Which topic do you want to delete? Enter ID: " },
@@ -34,7 +34,7 @@ namespace Learning_Diary_EL
             { "entertaskdeleteid", "Enter ID of task to delete: " },
             { "taskdeletesuccess", "Task deleted successfully." },
             { "tasknotfound", "Task not found." },
-            { "entertaskeditid", "Enter ID of task to edit: " },
+            { "entertaskeditid", "\nEnter ID of task to edit: " },
             { "topiccompleted", "Topic marked as completed." },
             {
                 "taskmenu",
@@ -75,11 +75,11 @@ namespace Learning_Diary_EL
         {
             {
                 "mainmenu",
-                "1 - lisää aihe" + "\n" + "2 - listaa aiheet" + "\n" + "3 - poista aihe" + "\n" +
+                "\n1 - lisää aihe" + "\n" + "2 - listaa aiheet" + "\n" + "3 - poista aihe" + "\n" +
                 "4 - muokkaa aihetta" + "\n" + "0 - tallenna ja poistu." + "\n" + "Syötä numero jatkaaksesi:"
             },
             { "invalid", "Virheellinen syöte. Yritä uudestaan." },
-            { "topicadded", "Aihe lisätty." },
+            { "topicadded", "Aihe lisätty.\n" },
             { "entertopiceditid", "Syötä muokattavan aiheen ID: " },
             { "topicnotfound", "Aihetta ei löytynyt." },
             { "entertopicdeleteid", "Syötä poistettavan aiheen ID: " },
@@ -98,7 +98,7 @@ namespace Learning_Diary_EL
             { "entertaskdeleteid", "Syötä poistettavan tehtävän ID: " },
             { "taskdeletesuccess", "Tehtävä poistettiin." },
             { "tasknotfound", "Tehtävää ei löytynyt." },
-            { "entertaskeditid", "Syötä muokattavan tehtävän ID: " },
+            { "entertaskeditid", "\nSyötä muokattavan tehtävän ID: " },
             { "topiccompleted", "Aihe merkattu valmiiksi." },
             {
                 "taskmenu",
@@ -137,8 +137,7 @@ namespace Learning_Diary_EL
         };
         public static Dictionary<string, string> ChooseLanguage()
         {
-            Console.WriteLine("Choose language, 1 - English, 2 - Suomi: ");
-            int languagechoice = int.Parse(Console.ReadLine());
+            int languagechoice = UserUI.GetInt("Choose language, 1 - English, 2 - Suomi: ", "Invalid input. Try again.");
             if (languagechoice == 1)
             {
                 return dictionary_EN;

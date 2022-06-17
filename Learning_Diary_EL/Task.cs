@@ -40,32 +40,27 @@ namespace Learning_Diary_EL
             Console.WriteLine(inputs["title"] + this.Title);
             Console.WriteLine(inputs["enternewtitle"]);
             this.Title = Console.ReadLine();
+
             Console.WriteLine();
             Console.WriteLine(inputs["description"] + this.Description);
             Console.WriteLine(inputs["enternewdesc"]);
             this.Description = Console.ReadLine();
+
             Console.WriteLine();
             Console.WriteLine(inputs["deadline"] + this.Deadline.ToShortDateString());
-            Console.WriteLine(inputs["enternewdl"]);
-            string date = Console.ReadLine();
-            String[] dateString = date.Split("/");
-            int year = int.Parse(dateString[0]);
-            int months = int.Parse(dateString[1]);
-            int days = int.Parse(dateString[2]);
-            this.Deadline = new DateTime(year, months, days);
+            this.Deadline = UserUI.GetDateTime(inputs["enternewdl"], inputs["invalid"]);
+
             Console.WriteLine();
-            Console.WriteLine(inputs["entertaskprio"]);
-            int choice = int.Parse(Console.ReadLine());
+            int choice = UserUI.GetInt(inputs["entertaskprio"], inputs["invalid"]);
             this.Priority = choice;
+
             Console.WriteLine();
             Console.WriteLine(inputs["taskeditsuccess"]);
         }
 
         public void PrintNotes(Dictionary<string, string> inputs)
         {
-            Console.WriteLine(new string('*', 30));
-            Console.WriteLine("*" + new string(' ', 11) + inputs["notestitle"] + new string(' ', 12) + "*");
-            Console.WriteLine(new string('*', 30));
+            UserUI.PrintBanner(inputs["notestitle"]);
             foreach (string n in Notes)
             {
                 Console.WriteLine(n);
