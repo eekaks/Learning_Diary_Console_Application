@@ -87,6 +87,53 @@ namespace Learning_Diary_EL
                 Console.WriteLine();
             }
         }
+
+        public static void EditTask(Task taskToEdit, Dictionary<string, string> inputs)
+        {
+            // this is nested loop to edit a task
+
+            bool taskEditRunning = true;
+
+            while (taskEditRunning)
+            {
+                UserUI.PrintBanner(inputs["tasktitle"]);
+                Console.WriteLine(taskToEdit.ToString(inputs));
+                Console.WriteLine();
+
+                int taskLoopChoice = UserUI.GetInt(inputs["taskmenu"], inputs["invalid"]); // "1 - edit task information" + "\n" + "2 - print notes" + "\n" + "3 - add note" + "\n" + "4 - mark task as complete" + "\n" + "0 - go back." + "\n" + "Enter number to continue: "
+
+                switch (taskLoopChoice)
+                {
+                    case 0:
+                        taskEditRunning = false;
+                        break;
+
+                    case 1:
+                        taskToEdit.EditTaskInfo(inputs);
+                        break;
+
+                    case 2:
+                        taskToEdit.PrintNotes(inputs);
+                        Console.WriteLine();
+                        break;
+
+                    case 3:
+                        Console.WriteLine(inputs["inputnote"]);
+                        string noteToAdd = Console.ReadLine();
+                        taskToEdit.AddNote(noteToAdd);
+                        break;
+
+                    case 4:
+                        taskToEdit.CompleteTask();
+                        break;
+
+                    default:
+                        Console.WriteLine(inputs["invalid"]);
+                        break;
+                }
+            }
+        }
+
         public string ToString(Dictionary<string, string> inputs)
         {
             if (!InProgress)

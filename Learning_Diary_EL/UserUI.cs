@@ -2,7 +2,7 @@
 
 namespace Learning_Diary_EL
 {
-    class UserUI
+    public class UserUI
     {
         public static void PrintProgramBanner()
         {
