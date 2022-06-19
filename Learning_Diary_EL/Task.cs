@@ -17,12 +17,12 @@ namespace Learning_Diary_EL
         }
 
         public int Id { get; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string Title { get; private set; }
+        public string Description { get; private set; }
         public List<string> Notes { get; set; }
         public DateTime Deadline { get; private set; }
         public bool Done { get; private set; }
-        public int Priority { get; set; }
+        public int Priority { get; private set; }
 
         public void CompleteTask()
         {

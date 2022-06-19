@@ -6,11 +6,11 @@ namespace Learning_Diary_EL
     public class Topic
     {
         public int Id { get; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public double EstimatedTimeToMaster { get; set; }
+        public string Title { get; private set; }
+        public string Description { get; private set; }
+        public double EstimatedTimeToMaster { get; private set; }
         public double TimeSpent { get; private set; }
-        public string Source { get; set; }
+        public string Source { get; private set; }
         public DateTime StartLearningDate { get; }
         public bool InProgress { get; private set; }
         public DateTime CompletionDate { get; private set; }
