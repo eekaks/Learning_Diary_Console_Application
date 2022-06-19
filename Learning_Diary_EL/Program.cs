@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 
 namespace Learning_Diary_EL
 {
@@ -11,16 +12,21 @@ namespace Learning_Diary_EL
             string path = "topics.json";
             Dictionary<int, Topic> topics = FileIO.ReadFile(path);
 
+            Console.SetWindowSize(136, 30);
+
             // choose localization
             Dictionary<string, string> inputs = Localization.ChooseLanguage();
             
-            UserUI.PrintProgramBanner();
-
             // start main program loop
             bool programRunning = true;
-
+            
             while (programRunning)
             {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                UserUI.PrintProgramBanner();
+                Console.ForegroundColor = ConsoleColor.Gray;
+
                 int choice = UserUI.GetInt(inputs["mainmenu"], inputs["invalid"]);  //"1 - add a topic" + "\n" + "2 - list topics" + "\n" + "3 - delete topic" + "\n" + "4 - edit topic" + "\n" + "0 - save & exit." + "\n" + "Enter number to continue:"
 
                 switch (choice)
@@ -33,10 +39,14 @@ namespace Learning_Diary_EL
                         Topic topicToAdd = TopicUtils.AddTopic(inputs);
                         topics[topicToAdd.Id] = topicToAdd;
                         Console.WriteLine(inputs["topicadded"]);
+                        Console.WriteLine(inputs["pressanykey"]);
+                        Console.ReadKey();
                         break;
 
                     case 2:
-                        TopicUtils.PrintTopics(topics, inputs);
+                        TopicUtils.PrintShortTopics(topics, inputs);
+                        Console.WriteLine("\n" + inputs["pressanykey"]);
+                        Console.ReadKey();
                         break;
 
                     case 3:
@@ -60,11 +70,15 @@ namespace Learning_Diary_EL
                         else
                         {
                             Console.WriteLine(inputs["topicnotfound"]);
+                            Console.WriteLine(inputs["pressanykey"]);
+                            Console.ReadKey();
                         }
                         break;
 
                     default:
                         Console.WriteLine(inputs["invalid"]);
+                        Console.WriteLine(inputs["pressanykey"]);
+                        Console.ReadKey();
                         break;
                 }
             }

@@ -64,11 +64,16 @@ namespace Learning_Diary_EL
             { "taskid", "Task ID: " },
             { "prio", "Priority: " },
             { "finished", "Finished: " },
-            { "topictitle", "TOPICS" },
+            { "topictitle", "TOPIC" },
             { "topicstitle", "TOPICS" },
             { "tasktitle", "TASK" },
             { "taskstitle", "TASKS" },
-            { "notestitle", "NOTES" }
+            { "notestitle", "NOTES" },
+            { "pressanykey", "Press any key to continue."},
+            { "taskaddsuccess", "Task added successfully."},
+            { "topiceditsuccess", "Topic edited successfully."},
+            { "noteaddsuccess", "Note added."},
+            { "taskmarkcomplete", "Task marked as completed."}
         };
 
         public static Dictionary<string, string> dictionary_FI = new Dictionary<string, string>()
@@ -125,7 +130,7 @@ namespace Learning_Diary_EL
             { "no", "Ei" },
             { "completed", "Valmistunut: " },
             { "enternewdl", "Syötä uusi deadline YYYY/MM/DD:" },
-            { "taskeditsuccess", "Tehtävää muokattiin onnistuneesti." },
+            { "taskeditsuccess", "Tehtävää muokattu." },
             { "taskid", "Tehtävän ID: " },
             { "prio", "Tärkeys: " },
             { "finished", "Valmistunut: " },
@@ -133,7 +138,12 @@ namespace Learning_Diary_EL
             { "topicstitle", "AIHEET" },
             { "tasktitle", "TEHTÄVÄ" },
             { "taskstitle", "TEHTÄVÄT" },
-            { "notestitle", "MUISTIINPANOT" }
+            { "notestitle", "MUISTIINPANOT" },
+            { "pressanykey", "Paina mitä tahansa näppäintä jatkaaksesi."},
+            { "taskaddsuccess", "Tehtävä lisätty."},
+            { "topiceditsuccess", "Aihetta muokattu."},
+            { "noteaddsuccess", "Muistiinpano lisätty."},
+            { "taskmarkcomplete", "Tehtävä merkitty valmiiksi."}
         };
         public static Dictionary<string, string> ChooseLanguage()
         {

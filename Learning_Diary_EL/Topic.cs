@@ -51,41 +51,50 @@ namespace Learning_Diary_EL
 
             Task newTask = new Task(id, name, description, deadline, choice);
             Tasks[id] = newTask;
+            Console.WriteLine(inputs["taskaddsuccess"]);
+            Console.WriteLine(inputs["pressanykey"]);
+            Console.ReadKey();
         }
 
         public void EditTopicInfo(Dictionary<string, string> inputs)
         {
-            Console.WriteLine();
-            Console.WriteLine(inputs["title"] + this.Title);
+            Console.WriteLine("\n" + inputs["title"] + this.Title);
             Console.WriteLine(inputs["enternewtitle"]);
             this.Title = Console.ReadLine();
-            Console.WriteLine();
-            Console.WriteLine(inputs["description"] + this.Description);
+
+            Console.WriteLine("\n" + inputs["description"] + this.Description);
             Console.WriteLine(inputs["enternewdesc"]);
             this.Description = Console.ReadLine();
-            Console.WriteLine();
-            Console.WriteLine(inputs["daysmaster"] + this.EstimatedTimeToMaster);
+
+            Console.WriteLine("\n" + inputs["daysmaster"] + this.EstimatedTimeToMaster);
             this.EstimatedTimeToMaster = UserUI.GetDouble(inputs["enterdays"], inputs["invalid"]);
-            Console.WriteLine();
-            Console.WriteLine(inputs["sourcemat"] + this.Source);
+
+            Console.WriteLine("\n" + inputs["sourcemat"] + this.Source);
             Console.WriteLine(inputs["entersource"]);
             this.Source = Console.ReadLine();
+
+            Console.WriteLine("\n" + inputs["topiceditsuccess"]);
+            Console.WriteLine(inputs["pressanykey"]);
+            Console.ReadKey();
         }
         public void PrintTasks(Dictionary<string, string> inputs)
         {
             foreach (int key in Tasks.Keys)
             {
-                Console.WriteLine(Tasks[key].ToString(inputs));
-                Console.WriteLine();
+                Console.WriteLine(Tasks[key].ToString(inputs) + "\n");
             }
+            Console.WriteLine(inputs["pressanykey"]);
+            Console.ReadKey();
         }
-        public void PrintShortTasks()
+        public void PrintShortTasks(Dictionary<string, string> inputs)
         {
+            Console.WriteLine();
             foreach (int key in Tasks.Keys)
             {
                 Console.WriteLine(Tasks[key].Id + ": " + Tasks[key].Title);
-                Console.WriteLine();
             }
+            Console.WriteLine("\n" + inputs["pressanykey"]);
+            Console.ReadKey();
         }
 
         public static void EditTask(Task taskToEdit, Dictionary<string, string> inputs)
@@ -96,9 +105,11 @@ namespace Learning_Diary_EL
 
             while (taskEditRunning)
             {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 UserUI.PrintBanner(inputs["tasktitle"]);
-                Console.WriteLine(taskToEdit.ToString(inputs));
-                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine(taskToEdit.ToString(inputs) + "\n");
 
                 int taskLoopChoice = UserUI.GetInt(inputs["taskmenu"], inputs["invalid"]); // "1 - edit task information" + "\n" + "2 - print notes" + "\n" + "3 - add note" + "\n" + "4 - mark task as complete" + "\n" + "0 - go back." + "\n" + "Enter number to continue: "
 
@@ -121,14 +132,19 @@ namespace Learning_Diary_EL
                         Console.WriteLine(inputs["inputnote"]);
                         string noteToAdd = Console.ReadLine();
                         taskToEdit.AddNote(noteToAdd);
+                        Console.WriteLine(inputs["noteaddsuccess"] + "\n" + inputs["pressanykey"]);
+                        Console.ReadKey();
                         break;
 
                     case 4:
                         taskToEdit.CompleteTask();
+                        Console.WriteLine(inputs["taskmarkcomplete"] + "\n" + inputs["pressanykey"]);
+                        Console.ReadKey();
                         break;
 
                     default:
-                        Console.WriteLine(inputs["invalid"]);
+                        Console.WriteLine(inputs["invalid"] + "\n" + inputs["pressanykey"]);
+                        Console.ReadKey();
                         break;
                 }
             }

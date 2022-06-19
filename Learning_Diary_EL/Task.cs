@@ -36,35 +36,34 @@ namespace Learning_Diary_EL
 
         public void EditTaskInfo(Dictionary<string, string> inputs)
         {
-            Console.WriteLine();
-            Console.WriteLine(inputs["title"] + this.Title);
+            Console.WriteLine("\n" + inputs["title"] + this.Title);
             Console.WriteLine(inputs["enternewtitle"]);
             this.Title = Console.ReadLine();
 
-            Console.WriteLine();
-            Console.WriteLine(inputs["description"] + this.Description);
+            Console.WriteLine("\n" + inputs["description"] + this.Description);
             Console.WriteLine(inputs["enternewdesc"]);
             this.Description = Console.ReadLine();
 
-            Console.WriteLine();
-            Console.WriteLine(inputs["deadline"] + this.Deadline.ToShortDateString());
+            Console.WriteLine("\n" + inputs["deadline"] + this.Deadline.ToShortDateString());
             this.Deadline = UserUI.GetDateTime(inputs["enternewdl"], inputs["invalid"]);
 
-            Console.WriteLine();
-            int choice = UserUI.GetInt(inputs["entertaskprio"], inputs["invalid"]);
+            int choice = UserUI.GetInt("\n" + inputs["entertaskprio"], inputs["invalid"]);
             this.Priority = choice;
 
-            Console.WriteLine();
-            Console.WriteLine(inputs["taskeditsuccess"]);
+            Console.WriteLine("\n" + inputs["taskeditsuccess"]);
+            Console.WriteLine(inputs["pressanykey"]);
+            Console.ReadKey();
         }
 
         public void PrintNotes(Dictionary<string, string> inputs)
         {
-            UserUI.PrintBanner(inputs["notestitle"]);
+            Console.WriteLine();
             foreach (string n in Notes)
             {
                 Console.WriteLine(n);
             }
+            Console.WriteLine("\n" + inputs["pressanykey"]);
+            Console.ReadKey();
         }
 
         public string ToString(Dictionary<string, string> inputs)

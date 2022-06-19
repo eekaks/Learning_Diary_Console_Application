@@ -5,20 +5,41 @@ namespace Learning_Diary_EL
 {
     public class TopicUtils
     {
+        public static void PrintShortTopics(Dictionary<int, Topic> topics, Dictionary<string, string> inputs)
+        {
+            // UserUI.PrintBanner(inputs["topicstitle"]);
+            Console.WriteLine();
+
+            foreach (int key in topics.Keys)
+            {
+                Console.WriteLine(topics[key].Id + ": " + topics[key].Title);
+            }
+
+            //Console.WriteLine(inputs["pressanykey"]);
+            //Console.ReadKey();
+        }
         public static void PrintTopics(Dictionary<int, Topic> topics, Dictionary<string, string> inputs)
         {
-            Console.WriteLine();
             UserUI.PrintBanner(inputs["topicstitle"]);
 
             foreach (int key in topics.Keys)
             {
                 Console.WriteLine(topics[key].ToString(inputs));
             }
+
+            Console.WriteLine(inputs["pressanykey"]);
+            Console.ReadKey();
         }
 
         public static Dictionary<int, Topic> DeleteTopic(Dictionary<int, Topic> topics, Dictionary<string, string> inputs)
         {
-            int inputId = UserUI.GetInt(inputs["entertopicdeleteid"], inputs["invalid"]);
+            Console.WriteLine();
+            foreach (int key in topics.Keys)
+            {
+                Console.WriteLine(topics[key].Id + ": " + topics[key].Title);
+            }
+            
+            int inputId = UserUI.GetInt("\n" + inputs["entertopicdeleteid"], inputs["invalid"]);
 
             if (topics.Remove(inputId))
             {
@@ -28,6 +49,9 @@ namespace Learning_Diary_EL
             {
                 Console.WriteLine(inputs["topicnotfound"]);
             }
+
+            Console.WriteLine(inputs["pressanykey"]);
+            Console.ReadKey();
             return topics;
         }
 
@@ -58,7 +82,10 @@ namespace Learning_Diary_EL
 
             while (topicEditRunning)
             {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
                 UserUI.PrintBanner(inputs["topictitle"]);
+                Console.ForegroundColor = ConsoleColor.Gray;
 
                 Console.WriteLine(topicToEdit.ToString(inputs));
 
@@ -76,8 +103,7 @@ namespace Learning_Diary_EL
                         break;
 
                     case 2:
-                        UserUI.PrintBanner(inputs["taskstitle"]);
-                        topicToEdit.PrintTasks(inputs);
+                        topicToEdit.PrintShortTasks(inputs);
                         break;
 
                     case 3:
@@ -85,24 +111,35 @@ namespace Learning_Diary_EL
                         break;
 
                     case 4:
-                        topicToEdit.PrintShortTasks();
-                        int deleteChoice = UserUI.GetInt(inputs["entertaskdeleteid"], inputs["invalid"]);
+                        Console.WriteLine();
+                        foreach (int key in topicToEdit.Tasks.Keys)
+                        {
+                            Console.WriteLine(topicToEdit.Tasks[key].Id + ": " + topicToEdit.Tasks[key].Title);
+                        }
+
+                        int deleteChoice = UserUI.GetInt("\n" + inputs["entertaskdeleteid"], inputs["invalid"]);
 
                         if (topicToEdit.Tasks.Remove(deleteChoice))
                         {
                             Console.WriteLine(inputs["taskdeletesuccess"]);
+                            Console.WriteLine(inputs["pressanykey"]);
+                            Console.ReadKey();
                         }
                         else
                         {
                             Console.WriteLine(inputs["tasknotfound"]);
+                            Console.WriteLine(inputs["pressanykey"]);
+                            Console.ReadKey();
                         }
                         break;
 
                     case 5:
-                        UserUI.PrintBanner(inputs["taskstitle"]);
-
-                        topicToEdit.PrintShortTasks();
-
+                        Console.WriteLine();
+                        foreach (int key in topicToEdit.Tasks.Keys)
+                        {
+                            Console.WriteLine(topicToEdit.Tasks[key].Id + ": " + topicToEdit.Tasks[key].Title);
+                        }
+                        
                         int taskChoice = UserUI.GetInt(inputs["entertaskeditid"], inputs["invalid"]);
 
                         if (topicToEdit.Tasks.ContainsKey(taskChoice))
@@ -112,16 +149,22 @@ namespace Learning_Diary_EL
                         else
                         {
                             Console.WriteLine(inputs["tasknotfound"]);
+                            Console.WriteLine(inputs["pressanykey"]);
+                            Console.ReadKey();
                         }
                         break;
 
                     case 6:
                         topicToEdit.CompleteTopic();
                         Console.WriteLine(inputs["topiccompleted"]);
+                        Console.WriteLine(inputs["pressanykey"]);
+                        Console.ReadKey();
                         break;
 
                     default:
                         Console.WriteLine(inputs["invalid"]);
+                        Console.WriteLine(inputs["pressanykey"]);
+                        Console.ReadKey();
                         break;
                 }
             }
