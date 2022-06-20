@@ -73,7 +73,11 @@ namespace Learning_Diary_EL
             { "taskaddsuccess", "Task added successfully."},
             { "topiceditsuccess", "Topic edited successfully."},
             { "noteaddsuccess", "Note added."},
-            { "taskmarkcomplete", "Task marked as completed."}
+            { "taskmarkcomplete", "Task marked as completed."},
+            { "search", "Enter ID or keyword to search. Enter 0 to go back."},
+            { "notopicfound", "No topic found."},
+            { "entertopicid", "Enter ID of topic to continue."},
+            { "notopics", "There are no entries in the learning diary."}
         };
 
         public static Dictionary<string, string> dictionary_FI = new Dictionary<string, string>()
@@ -143,7 +147,11 @@ namespace Learning_Diary_EL
             { "taskaddsuccess", "Tehtävä lisätty."},
             { "topiceditsuccess", "Aihetta muokattu."},
             { "noteaddsuccess", "Muistiinpano lisätty."},
-            { "taskmarkcomplete", "Tehtävä merkitty valmiiksi."}
+            { "taskmarkcomplete", "Tehtävä merkitty valmiiksi."},
+            { "search", "Syötä ID tai hakusana. Syötä 0 siirtyäksesi takaisin."},
+            { "notopicfound", "Aihetta ei löydetty."},
+            { "entertopicid", "Syötä aiheen ID jatkaaksesi."},
+            { "notopics", "Oppimispäiväkirjassa ei ole yhtään aihetta."}
         };
         public static Dictionary<string, string> ChooseLanguage()
         {

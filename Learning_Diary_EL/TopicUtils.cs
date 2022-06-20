@@ -5,6 +5,82 @@ namespace Learning_Diary_EL
 {
     public class TopicUtils
     {
+        public static Topic SearchTopics(Dictionary<int, Topic> topics, Dictionary<string, string> inputs)
+        {
+            PrintShortTopics(topics, inputs);
+
+            while (true)
+            {
+                Console.WriteLine("\n" + inputs["search"]);
+                string search = Console.ReadLine();
+                try
+                {
+                    int searchId = int.Parse(search);
+                    if (searchId == 0)
+                    {
+                        break;
+                    }
+                    foreach (int key in topics.Keys)
+                    {
+                        if (searchId == key)
+                        {
+                            return topics[key];
+                        }
+                    }
+                    Console.WriteLine(inputs["notopicfound"]);
+                    Console.WriteLine(inputs["pressanykey"]);
+                    Console.ReadKey();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    List<Topic> foundTopics = new List<Topic>();
+                    foreach (Topic topic in topics.Values)
+                    {
+                        if(topic.Title.ToLower().Contains(search.ToLower()))
+                        {
+                            foundTopics.Add(topic);
+                        }
+                    }
+
+                    if (foundTopics.Count == 0)
+                    {
+                        Console.WriteLine(inputs["notopicfound"]);
+                        Console.WriteLine(inputs["pressanykey"]);
+                        Console.ReadKey();
+                        break;
+                    }
+                    else if (foundTopics.Count == 1)
+                    {
+                        return foundTopics[0];
+                    }
+                    else if (foundTopics.Count > 1)
+                    {
+                        while (true)
+                        {
+                            foreach (Topic topic in foundTopics)
+                            {
+                                Console.WriteLine(topic.Id + ": " + topic.Title);
+                            }
+                            int topicId = UserUI.GetInt("\n" + inputs["entertopicid"], inputs["invalid"]);
+                            foreach (Topic topic in foundTopics)
+                            {
+                                if (topicId == topic.Id)
+                                {
+                                    return topic;
+                                }
+                            }
+                            Console.WriteLine(inputs["topicnotfound"]);
+                            Console.WriteLine(inputs["pressanykey"]);
+                            Console.ReadKey();
+                            break;
+                        }
+                        break;
+                    }
+                }
+            }
+            return new Topic("plop", "plop", 60, "plop", -1);
+        }
         public static void PrintShortTopics(Dictionary<int, Topic> topics, Dictionary<string, string> inputs)
         {
             // UserUI.PrintBanner(inputs["topicstitle"]);
@@ -77,6 +153,11 @@ namespace Learning_Diary_EL
         public static void EditTopic(Topic topicToEdit, Dictionary<string, string> inputs)
         {
             //this is a nested loop in the program logic to edit a topic
+
+            if (topicToEdit.Id == -1)
+            {
+                return;
+            }
 
             bool topicEditRunning = true;
 

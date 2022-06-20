@@ -54,25 +54,32 @@ namespace Learning_Diary_EL
                         break;
 
                     case 4:
-                        Console.WriteLine();
-                        foreach (int key in topics.Keys)
+                        if (topics.Count == 0)
                         {
-                            Console.WriteLine(topics[key].Id + ": " + topics[key].Title);
-                        }
-                        Console.WriteLine();
-
-                        int topicChoice = UserUI.GetInt(inputs["entertopiceditid"], inputs["invalid"]);
-
-                        if (topics.ContainsKey(topicChoice))
-                        {
-                            TopicUtils.EditTopic(topics[topicChoice], inputs);
-                        }
-                        else
-                        {
-                            Console.WriteLine(inputs["topicnotfound"]);
+                            Console.WriteLine(inputs["notopics"]);
                             Console.WriteLine(inputs["pressanykey"]);
                             Console.ReadKey();
                         }
+                        TopicUtils.EditTopic(TopicUtils.SearchTopics(topics, inputs), inputs);
+                        //Console.WriteLine();
+                        //foreach (int key in topics.Keys)
+                        //{
+                        //    Console.WriteLine(topics[key].Id + ": " + topics[key].Title);
+                        //}
+                        //Console.WriteLine();
+
+                        //int topicChoice = UserUI.GetInt(inputs["entertopiceditid"], inputs["invalid"]);
+
+                        //if (topics.ContainsKey(topicChoice))
+                        //{
+                        //    TopicUtils.EditTopic(topics[topicChoice], inputs);
+                        //}
+                        //else
+                        //{
+                        //    Console.WriteLine(inputs["topicnotfound"]);
+                        //    Console.WriteLine(inputs["pressanykey"]);
+                        //    Console.ReadKey();
+                        //}
                         break;
 
                     default:
