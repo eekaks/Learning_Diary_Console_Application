@@ -10,7 +10,7 @@ namespace Learning_Diary_EL
             {
                 "mainmenu",
                 "\n1 - add a topic" + "\n" + "2 - list topics" + "\n" + "3 - delete topic" + "\n" +
-                "4 - edit topic" + "\n" + "0 - save & exit." + "\n" + "Enter number to continue:"
+                "4 - edit topic" + "\n" + "0 - exit." + "\n" + "Enter number to continue:"
             },
             { "invalid", "Invalid input. Try again." },
             { "topicadded", "Topic added.\n" },
@@ -85,7 +85,7 @@ namespace Learning_Diary_EL
             {
                 "mainmenu",
                 "\n1 - lisää aihe" + "\n" + "2 - listaa aiheet" + "\n" + "3 - poista aihe" + "\n" +
-                "4 - muokkaa aihetta" + "\n" + "0 - tallenna ja poistu." + "\n" + "Syötä numero jatkaaksesi:"
+                "4 - muokkaa aihetta" + "\n" + "0 - poistu." + "\n" + "Syötä numero jatkaaksesi:"
             },
             { "invalid", "Virheellinen syöte. Yritä uudestaan." },
             { "topicadded", "Aihe lisätty.\n" },
