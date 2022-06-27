@@ -1,5 +1,7 @@
 This is a learning diary app with a console user interface.
 
+You need to be running an SQL server at your localhost (edit in Learning_Diary_ELContext.cs) with appropriate tables for it to work.
+
 The diary holds topics among other information, topics hold tasks among other information. Tasks hold notes among other information.
 
 You navigate giving number commands and there are three levels to the app:

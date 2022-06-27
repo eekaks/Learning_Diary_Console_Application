@@ -120,6 +120,38 @@ namespace Learning_Diary_EL.Models
             Console.ReadKey();
         }
 
+        public void DeleteTask(Dictionary<string, string> inputs)
+        {
+            Console.WriteLine();
+
+            using (var db = new Learning_Diary_ELContext())
+            {
+                IQueryable<Models.Task> tasks = db.Tasks.Where(x => x.Topic == this.Id);
+                foreach (Models.Task taskFound in tasks)
+                {
+                    Console.WriteLine(taskFound.Id + ": " + taskFound.Title);
+                }
+                int deleteChoice = UserUI.GetInt("\n" + inputs["entertaskdeleteid"], inputs["invalid"]);
+
+                Models.Task task = db.Tasks.Find(deleteChoice);
+                if (task == null)
+                {
+                    Console.WriteLine(inputs["tasknotfound"]);
+                    Console.WriteLine(inputs["pressanykey"]);
+                    Console.ReadKey();
+                }
+                else
+                {
+                    db.Tasks.Remove(task);
+                    db.SaveChanges();
+                    Console.WriteLine(inputs["taskdeletesuccess"]);
+                    Console.WriteLine(inputs["pressanykey"]);
+                    Console.ReadKey();
+                }
+
+            }
+        }
+
         public static void EditTask(Models.Task taskToEdit, Dictionary<string, string> inputs)
         {
             // this is nested loop to edit a task

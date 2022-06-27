@@ -5,6 +5,23 @@ namespace Learning_Diary_EL
 {
     public class Localization
     {
+        public static Dictionary<string, string> ChooseLanguage()
+        {
+            int languagechoice = UserUI.GetInt("Choose language, 1 - English, 2 - Suomi: ", "Invalid input. Try again.");
+            if (languagechoice == 1)
+            {
+                return dictionary_EN;
+            }
+            else if (languagechoice == 2)
+            {
+                return dictionary_FI;
+            }
+            else
+            {
+                return dictionary_EN;
+            }
+        }
+
         public static Dictionary<string, string> dictionary_EN = new Dictionary<string, string>()
         {
             {
@@ -153,21 +170,5 @@ namespace Learning_Diary_EL
             { "entertopicid", "Syötä aiheen ID jatkaaksesi."},
             { "notopics", "Oppimispäiväkirjassa ei ole yhtään aihetta."}
         };
-        public static Dictionary<string, string> ChooseLanguage()
-        {
-            int languagechoice = UserUI.GetInt("Choose language, 1 - English, 2 - Suomi: ", "Invalid input. Try again.");
-            if (languagechoice == 1)
-            {
-                return dictionary_EN;
-            }
-            else if (languagechoice == 2)
-            {
-                return dictionary_FI;
-            }
-            else
-            {
-                return null;
-            }
-        }
     }
 }

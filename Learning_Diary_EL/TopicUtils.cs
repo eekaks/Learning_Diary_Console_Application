@@ -214,34 +214,7 @@ namespace Learning_Diary_EL
                         break;
 
                     case 4:
-                        Console.WriteLine();
-
-                        using (var db = new Learning_Diary_ELContext())
-                        {
-                            IQueryable<Models.Task> tasks = db.Tasks.Where(x => x.Topic == topicToEdit.Id);
-                            foreach (Models.Task taskFound in tasks)
-                            {
-                                Console.WriteLine(taskFound.Id + ": " + taskFound.Title);
-                            }
-                            int deleteChoice = UserUI.GetInt("\n" + inputs["entertaskdeleteid"], inputs["invalid"]);
-
-                            Models.Task task = db.Tasks.Find(deleteChoice);
-                            if (task == null)
-                            {
-                                Console.WriteLine(inputs["tasknotfound"]);
-                                Console.WriteLine(inputs["pressanykey"]);
-                                Console.ReadKey();
-                            }
-                            else
-                            {
-                                db.Tasks.Remove(task);
-                                db.SaveChanges();
-                                Console.WriteLine(inputs["taskdeletesuccess"]);
-                                Console.WriteLine(inputs["pressanykey"]);
-                                Console.ReadKey();
-                            }
-                            
-                        }
+                        topicToEdit.DeleteTask(inputs);
                         break;
                         
                     case 5:
