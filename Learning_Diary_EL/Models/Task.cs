@@ -26,17 +26,17 @@ namespace Learning_Diary_EL.Models
             Done = false;
             Priority = priority;
         }
-        public void CompleteTask()
+        public async System.Threading.Tasks.Task CompleteTask()
         {
             using (var db = new Learning_Diary_ELContext())
             {
                 Models.Task task = db.Tasks.Find(this.Id);
                 task.Done = true;
-                db.SaveChanges();
+                db.SaveChangesAsync();
             }
         }
 
-        public void AddNote(string noteToAdd)
+        public async System.Threading.Tasks.Task AddNote(string noteToAdd)
         {
             using (var db = new Learning_Diary_ELContext())
             {
@@ -50,11 +50,11 @@ namespace Learning_Diary_EL.Models
                     noteId = db.Notes.Max(note => note.Id);
                 }
                 db.Notes.Add(new Note() { Id = noteId+1, Task = this.Id, Note1 = noteToAdd });
-                db.SaveChanges();
+                db.SaveChangesAsync();
             }
         }
 
-        public void EditTaskInfo(Dictionary<string, string> inputs)
+        public async System.Threading.Tasks.Task EditTaskInfo(Dictionary<string, string> inputs)
         {
             Console.WriteLine("\n" + inputs["title"] + this.Title);
             Console.WriteLine(inputs["enternewtitle"]);
@@ -76,7 +76,7 @@ namespace Learning_Diary_EL.Models
                 task.Description = description;
                 task.Deadline = deadline;
                 task.Priority = choice;
-                db.SaveChanges();
+                db.SaveChangesAsync();
             }
 
             Console.WriteLine("\n" + inputs["taskeditsuccess"]);
@@ -101,7 +101,7 @@ namespace Learning_Diary_EL.Models
 
         public string ToString(Dictionary<string, string> inputs)
         {
-            string stringBool = String.Empty;
+            string stringBool;
 
             if (Done)
             {

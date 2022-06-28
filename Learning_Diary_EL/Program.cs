@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Learning_Diary_EL
 {
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             // set slightly larger console window
             Console.SetWindowSize(136, 30);
@@ -33,7 +34,7 @@ namespace Learning_Diary_EL
                         break;
 
                     case 1:
-                        TopicUtils.AddTopic(inputs);
+                        System.Threading.Tasks.Task addTask = TopicUtils.AddTopicAsync(inputs);
                         Console.WriteLine(inputs["topicadded"]);
                         Console.WriteLine(inputs["pressanykey"]);
                         Console.ReadKey();
@@ -46,11 +47,11 @@ namespace Learning_Diary_EL
                         break;
 
                     case 3:
-                        TopicUtils.DeleteTopic(inputs);
+                        System.Threading.Tasks.Task deleteTask = TopicUtils.DeleteTopicAsync(inputs);
                         break;
 
                     case 4:
-                        TopicUtils.EditTopic(TopicUtils.SearchTopics(inputs), inputs);
+                        System.Threading.Tasks.Task editTask = TopicUtils.EditTopicAsync(TopicUtils.SearchTopics(inputs), inputs);
                         break;
 
                     default:

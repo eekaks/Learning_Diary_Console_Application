@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Learning_Diary_EL.Models;
+using System.Threading.Tasks;
 
 namespace Learning_Diary_EL
 {
@@ -118,7 +120,7 @@ namespace Learning_Diary_EL
                 }
             }
         }
-        public static void DeleteTopic(Dictionary<string, string> inputs)
+        public static async System.Threading.Tasks.Task DeleteTopicAsync(Dictionary<string, string> inputs)
         {
             PrintShortTopics(inputs);
             
@@ -135,15 +137,14 @@ namespace Learning_Diary_EL
                 else
                 {
                     db.Topics.Remove(topic);
-                    db.SaveChanges();
+                    System.Threading.Tasks.Task plop = db.SaveChangesAsync();
                     Console.WriteLine(inputs["topicremovesuccess"]);
                 }
                 Console.WriteLine(inputs["pressanykey"]);
                 Console.ReadKey();
             }
         }
-
-        public static void AddTopic(Dictionary<string, string> inputs)
+        public static async System.Threading.Tasks.Task AddTopicAsync(Dictionary<string, string> inputs)
         {
             Console.WriteLine(inputs["entertopictitle"]);
             string title = Console.ReadLine();
@@ -168,11 +169,11 @@ namespace Learning_Diary_EL
                     id = db.Topics.Max(topic => topic.Id);
                 }
                 db.Topics.Add(new Models.Topic(title, description, estimatedTimeToMaster, source, id + 1));
-                db.SaveChanges();
+                db.SaveChangesAsync();
             }
         }
 
-        public static void EditTopic(Models.Topic topicToEdit, Dictionary<string, string> inputs)
+        public static async System.Threading.Tasks.Task EditTopicAsync(Models.Topic topicToEdit, Dictionary<string, string> inputs)
         {
             //this is a nested loop in the program logic to edit a topic
 
@@ -202,7 +203,7 @@ namespace Learning_Diary_EL
                         break;
 
                     case 1:
-                        topicToEdit.AddTask(inputs);
+                        System.Threading.Tasks.Task addTask = topicToEdit.AddTaskAsync(inputs);
                         break;
 
                     case 2:
@@ -210,11 +211,11 @@ namespace Learning_Diary_EL
                         break;
 
                     case 3:
-                        topicToEdit.EditTopicInfo(inputs);
+                        System.Threading.Tasks.Task editTopicTask = topicToEdit.EditTopicInfoAsync(inputs);
                         break;
 
                     case 4:
-                        topicToEdit.DeleteTask(inputs);
+                        System.Threading.Tasks.Task deleteTask = topicToEdit.DeleteTaskAsync(inputs);
                         break;
                         
                     case 5:
@@ -237,14 +238,14 @@ namespace Learning_Diary_EL
                             }
                             else
                             {
-                                Models.Topic.EditTask(task, inputs);
+                                System.Threading.Tasks.Task editTask = Models.Topic.EditTaskAsync(task, inputs);
                             }
 
                         }
                         break;
 
                     case 6:
-                        topicToEdit.CompleteTopic();
+                        System.Threading.Tasks.Task completeTask = topicToEdit.CompleteTopicAsync();
                         Console.WriteLine(inputs["topiccompleted"]);
                         Console.WriteLine(inputs["pressanykey"]);
                         Console.ReadKey();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 #nullable disable
 
@@ -30,7 +31,7 @@ namespace Learning_Diary_EL.Models
             InProgress = true;
             CompletionDate = DateTime.MaxValue;
         }
-        public void CompleteTopic()
+        public async System.Threading.Tasks.Task CompleteTopicAsync()
         {
             using (var db = new Learning_Diary_ELContext())
             {
@@ -40,11 +41,11 @@ namespace Learning_Diary_EL.Models
                 TimeSpan spentTime = CompletionDate - topic.StartLearningDate;
                 topic.TimeSpent = (int)spentTime.TotalDays;
 
-                db.SaveChanges();
+                db.SaveChangesAsync();
             }
             
         }
-        public void AddTask(Dictionary<string, string> inputs)
+        public async System.Threading.Tasks.Task AddTaskAsync(Dictionary<string, string> inputs)
         {
             Console.WriteLine(inputs["entertaskname"]);
             string name = Console.ReadLine();
@@ -65,14 +66,14 @@ namespace Learning_Diary_EL.Models
                     taskId = db.Tasks.Max(task => task.Id);
                 }
                 db.Tasks.Add(new Models.Task(taskId + 1, this.Id, name, description, deadline, choice));
-                db.SaveChanges();
+                db.SaveChangesAsync();
             }
             Console.WriteLine(inputs["taskaddsuccess"]);
             Console.WriteLine(inputs["pressanykey"]);
             Console.ReadKey();
         }
 
-        public void EditTopicInfo(Dictionary<string, string> inputs)
+        public async System.Threading.Tasks.Task EditTopicInfoAsync(Dictionary<string, string> inputs)
         {
             Console.WriteLine("\n" + inputs["title"] + this.Title);
             Console.WriteLine(inputs["enternewtitle"]);
@@ -96,7 +97,7 @@ namespace Learning_Diary_EL.Models
                 topic.Description = description;
                 topic.EstimatedTimeToMaster = estimatedtimetomaster;
                 topic.Source = source;
-                db.SaveChanges();
+                db.SaveChangesAsync();
             }
 
             Console.WriteLine("\n" + inputs["topiceditsuccess"]);
@@ -120,7 +121,7 @@ namespace Learning_Diary_EL.Models
             Console.ReadKey();
         }
 
-        public void DeleteTask(Dictionary<string, string> inputs)
+        public async System.Threading.Tasks.Task DeleteTaskAsync(Dictionary<string, string> inputs)
         {
             Console.WriteLine();
 
@@ -143,7 +144,7 @@ namespace Learning_Diary_EL.Models
                 else
                 {
                     db.Tasks.Remove(task);
-                    db.SaveChanges();
+                    db.SaveChangesAsync();
                     Console.WriteLine(inputs["taskdeletesuccess"]);
                     Console.WriteLine(inputs["pressanykey"]);
                     Console.ReadKey();
@@ -152,7 +153,7 @@ namespace Learning_Diary_EL.Models
             }
         }
 
-        public static void EditTask(Models.Task taskToEdit, Dictionary<string, string> inputs)
+        public static async System.Threading.Tasks.Task EditTaskAsync(Models.Task taskToEdit, Dictionary<string, string> inputs)
         {
             // this is nested loop to edit a task
 
@@ -176,7 +177,7 @@ namespace Learning_Diary_EL.Models
                         break;
 
                     case 1:
-                        taskToEdit.EditTaskInfo(inputs);
+                        System.Threading.Tasks.Task editTask = taskToEdit.EditTaskInfo(inputs);
                         break;
 
                     case 2:
@@ -187,13 +188,13 @@ namespace Learning_Diary_EL.Models
                     case 3:
                         Console.WriteLine(inputs["inputnote"]);
                         string noteToAdd = Console.ReadLine();
-                        taskToEdit.AddNote(noteToAdd);
+                        System.Threading.Tasks.Task addTask = taskToEdit.AddNote(noteToAdd);
                         Console.WriteLine(inputs["noteaddsuccess"] + "\n" + inputs["pressanykey"]);
                         Console.ReadKey();
                         break;
 
                     case 4:
-                        taskToEdit.CompleteTask();
+                        System.Threading.Tasks.Task completeTask = taskToEdit.CompleteTask();
                         Console.WriteLine(inputs["taskmarkcomplete"] + "\n" + inputs["pressanykey"]);
                         Console.ReadKey();
                         break;
