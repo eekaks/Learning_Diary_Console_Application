@@ -40,19 +40,16 @@ namespace Learning_Diary_EL.Models
         {
             using (var db = new Learning_Diary_ELContext())
             {
-                int noteId = 0;
-                List<Note> notes = db.Notes.ToList();
-
-                foreach (Note note in notes)
+                int noteId;
+                if (db.Notes.Count() == 0)
                 {
-                    if (note.Id > noteId)
-                    {
-                        noteId = note.Id;
-                    }
+                    noteId = 0;
                 }
-
-                noteId++;
-                db.Notes.Add(new Note() { Id = noteId, Task = this.Id, Note1 = noteToAdd });
+                else
+                {
+                    noteId = db.Notes.Max(note => note.Id);
+                }
+                db.Notes.Add(new Note() { Id = noteId+1, Task = this.Id, Note1 = noteToAdd });
                 db.SaveChanges();
             }
         }

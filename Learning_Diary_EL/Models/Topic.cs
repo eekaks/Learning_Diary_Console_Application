@@ -56,7 +56,7 @@ namespace Learning_Diary_EL.Models
             using (var db = new Learning_Diary_ELContext())
             {
                 int taskId;
-                if (db.Tasks.Where(task => task.Id == this.Id).Count() == 0)
+                if (db.Tasks.Count() == 0)
                 {
                     taskId = 0;
                 }
