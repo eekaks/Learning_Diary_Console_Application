@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Learning_Diary_EL.Models
 {
-    public partial class Task
+    public class Task
     {
         public int Id { get; set; }
         public int Topic { get; set; }
@@ -41,7 +41,7 @@ namespace Learning_Diary_EL.Models
             using (var db = new Learning_Diary_ELContext())
             {
                 int noteId;
-                if (db.Notes.Count() == 0)
+                if (!db.Notes.Any())
                 {
                     noteId = 0;
                 }
@@ -90,7 +90,7 @@ namespace Learning_Diary_EL.Models
             using (var db = new Learning_Diary_ELContext())
             {
                 var notes = db.Notes.Where(x => x.Task == this.Id);
-                foreach (var note in notes)
+                foreach (Note note in notes)
                 {
                     Console.WriteLine(note.Note1);
                 }

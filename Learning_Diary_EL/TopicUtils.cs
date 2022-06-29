@@ -9,7 +9,7 @@ namespace Learning_Diary_EL
 {
     public class TopicUtils
     {
-        public static Models.Topic SearchTopics(Dictionary<string, string> inputs)
+        public static Topic SearchTopics(Dictionary<string, string> inputs)
         {
             PrintShortTopics(inputs);
 
@@ -28,7 +28,7 @@ namespace Learning_Diary_EL
 
                     using (var db = new Learning_Diary_ELContext())
                     {
-                        Models.Topic topic = db.Topics.Find(searchId);
+                        Topic topic = db.Topics.Find(searchId);
                         if (topic == null)
                         {
                             Console.WriteLine(inputs["notopicfound"]);
@@ -45,12 +45,12 @@ namespace Learning_Diary_EL
                 catch (Exception e)
                 {
                     //search by keyword next
-                    List<Models.Topic> foundTopics = new List<Models.Topic>();
+                    List<Topic> foundTopics = new List<Topic>();
 
                     using (var db = new Learning_Diary_ELContext())
                     {
-                        List<Models.Topic> topics = db.Topics.ToList();
-                        foreach (Models.Topic topic in topics)
+                        List<Topic> topics = db.Topics.ToList();
+                        foreach (Topic topic in topics)
                         {
                             if (topic.Title.ToLower().Contains(search.ToLower()))
                             {
@@ -73,12 +73,12 @@ namespace Learning_Diary_EL
                             while (true)
                             {
                                 //if multiple topics found, specify
-                                foreach (Models.Topic topic in foundTopics)
+                                foreach (Topic topic in foundTopics)
                                 {
                                     Console.WriteLine(topic.Id + ": " + topic.Title);
                                 }
                                 int topicId = UserUI.GetInt("\n" + inputs["entertopicid"], inputs["invalid"]);
-                                foreach (Models.Topic topic in foundTopics)
+                                foreach (Topic topic in foundTopics)
                                 {
                                     if (topicId == topic.Id)
                                     {
@@ -95,7 +95,7 @@ namespace Learning_Diary_EL
                     }
                 }
             }
-            return new Models.Topic("plop", "plop", 60, "plop", -1);
+            return new Topic("plop", "plop", 60, "plop", -1);
         }
         public static void PrintShortTopics(Dictionary<string, string> inputs)
         {
@@ -104,9 +104,9 @@ namespace Learning_Diary_EL
 
             using (var db = new Learning_Diary_ELContext())
             {
-                var topics = db.Topics.ToList();
+                List<Topic> topics = db.Topics.ToList();
 
-                if (topics.Count == 0)
+                if (!topics.Any())
                 {
                     Console.WriteLine(inputs["notopics"]);
                     Console.WriteLine(inputs["pressanykey"]);
@@ -114,7 +114,7 @@ namespace Learning_Diary_EL
                     return;
                 }
 
-                foreach (Models.Topic topic in topics)
+                foreach (Topic topic in topics)
                 {
                     Console.WriteLine(topic.Id + ": " + topic.Title);
                 }
@@ -128,7 +128,7 @@ namespace Learning_Diary_EL
 
             using (var db = new Learning_Diary_ELContext())
             {
-                Models.Topic topic = db.Topics.Find(inputId);
+                Topic topic = db.Topics.Find(inputId);
 
                 if (topic == null)
                 {
@@ -160,7 +160,7 @@ namespace Learning_Diary_EL
             using (var db = new Learning_Diary_ELContext())
             {
                 int id;
-                if (db.Topics.Count() == 0)
+                if (!db.Topics.Any())
                 {
                     id = 0;
                 }
@@ -168,12 +168,12 @@ namespace Learning_Diary_EL
                 {
                     id = db.Topics.Max(topic => topic.Id);
                 }
-                db.Topics.Add(new Models.Topic(title, description, estimatedTimeToMaster, source, id + 1));
+                db.Topics.Add(new Topic(title, description, estimatedTimeToMaster, source, id + 1));
                 db.SaveChangesAsync();
             }
         }
 
-        public static async System.Threading.Tasks.Task EditTopicAsync(Models.Topic topicToEdit, Dictionary<string, string> inputs)
+        public static async System.Threading.Tasks.Task EditTopicAsync(Topic topicToEdit, Dictionary<string, string> inputs)
         {
             //this is a nested loop in the program logic to edit a topic
 
@@ -238,7 +238,7 @@ namespace Learning_Diary_EL
                             }
                             else
                             {
-                                System.Threading.Tasks.Task editTask = Models.Topic.EditTaskAsync(task, inputs);
+                                System.Threading.Tasks.Task editTask = Topic.EditTaskAsync(task, inputs);
                             }
 
                         }

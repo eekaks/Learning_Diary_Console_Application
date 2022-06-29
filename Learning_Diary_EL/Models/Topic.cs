@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Learning_Diary_EL.Models
 {
-    public partial class Topic
+    public class Topic
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -35,7 +35,7 @@ namespace Learning_Diary_EL.Models
         {
             using (var db = new Learning_Diary_ELContext())
             {
-                Models.Topic topic = db.Topics.Find(this.Id);
+                Topic topic = db.Topics.Find(this.Id);
                 topic.InProgress = false;
                 topic.CompletionDate = DateTime.Now;
                 TimeSpan spentTime = CompletionDate - topic.StartLearningDate;
@@ -92,7 +92,7 @@ namespace Learning_Diary_EL.Models
 
             using (var db = new Learning_Diary_ELContext())
             {
-                Models.Topic topic = db.Topics.Find(this.Id);
+                Topic topic = db.Topics.Find(this.Id);
                 topic.Title = title;
                 topic.Description = description;
                 topic.EstimatedTimeToMaster = estimatedtimetomaster;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Learning_Diary_EL.Models
 {
-    public partial class Note
+    public class Note
     {
         public int Id { get; set; }
         public int Task { get; set; }
