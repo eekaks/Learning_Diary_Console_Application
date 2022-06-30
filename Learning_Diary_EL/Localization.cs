@@ -7,7 +7,7 @@ namespace Learning_Diary_EL
     {
         public static Dictionary<string, string> ChooseLanguage()
         {
-            int languagechoice = UserUI.GetInt("Choose language, 1 - English, 2 - Suomi: ", "Invalid input. Try again.");
+            int languagechoice = ConsoleAppUi.GetInt("Choose language, 1 - English, 2 - Suomi: ", "Invalid input. Try again.");
             if (languagechoice == 1)
             {
                 return dictionary_EN;

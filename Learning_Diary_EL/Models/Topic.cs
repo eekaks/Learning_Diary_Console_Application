@@ -51,8 +51,8 @@ namespace Learning_Diary_EL.Models
             string name = Console.ReadLine();
             Console.WriteLine(inputs["entertaskdesc"]);
             string description = Console.ReadLine();
-            DateTime deadline = UserUI.GetDateTime(inputs["entertaskdl"], inputs["invalid"]);
-            int choice = UserUI.GetInt(inputs["entertaskprio"], inputs["invalid"]);
+            DateTime deadline = ConsoleAppUi.GetDateTime(inputs["entertaskdl"], inputs["invalid"]);
+            int choice = ConsoleAppUi.GetInt(inputs["entertaskprio"], inputs["invalid"]);
 
             using (var db = new Learning_Diary_ELContext())
             {
@@ -84,7 +84,7 @@ namespace Learning_Diary_EL.Models
             string description = Console.ReadLine();
 
             Console.WriteLine("\n" + inputs["daysmaster"] + this.EstimatedTimeToMaster);
-            int estimatedtimetomaster = UserUI.GetInt(inputs["enterdays"], inputs["invalid"]);
+            int estimatedtimetomaster = ConsoleAppUi.GetInt(inputs["enterdays"], inputs["invalid"]);
 
             Console.WriteLine("\n" + inputs["sourcemat"] + this.Source);
             Console.WriteLine(inputs["entersource"]);
@@ -132,7 +132,7 @@ namespace Learning_Diary_EL.Models
                 {
                     Console.WriteLine(taskFound.Id + ": " + taskFound.Title);
                 }
-                int deleteChoice = UserUI.GetInt("\n" + inputs["entertaskdeleteid"], inputs["invalid"]);
+                int deleteChoice = ConsoleAppUi.GetInt("\n" + inputs["entertaskdeleteid"], inputs["invalid"]);
 
                 Models.Task task = db.Tasks.Find(deleteChoice);
                 if (task == null)
@@ -163,12 +163,12 @@ namespace Learning_Diary_EL.Models
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-                UserUI.PrintBanner(inputs["tasktitle"]);
+                ConsoleAppUi.PrintBanner(inputs["tasktitle"]);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(taskToEdit.ToString(inputs) + "\n");
 
                 // "1 - edit task information" + "\n" + "2 - print notes" + "\n" + "3 - add note" + "\n" + "4 - mark task as complete" + "\n" + "0 - go back." + "\n" + "Enter number to continue: "
-                int taskLoopChoice = UserUI.GetInt(inputs["taskmenu"], inputs["invalid"]); 
+                int taskLoopChoice = ConsoleAppUi.GetInt(inputs["taskmenu"], inputs["invalid"]); 
 
                 switch (taskLoopChoice)
                 {

@@ -77,7 +77,7 @@ namespace Learning_Diary_EL
                                 {
                                     Console.WriteLine(topic.Id + ": " + topic.Title);
                                 }
-                                int topicId = UserUI.GetInt("\n" + inputs["entertopicid"], inputs["invalid"]);
+                                int topicId = ConsoleAppUi.GetInt("\n" + inputs["entertopicid"], inputs["invalid"]);
                                 foreach (Topic topic in foundTopics)
                                 {
                                     if (topicId == topic.Id)
@@ -124,7 +124,7 @@ namespace Learning_Diary_EL
         {
             PrintShortTopics(inputs);
             
-            int inputId = UserUI.GetInt("\n" + inputs["entertopicdeleteid"], inputs["invalid"]);
+            int inputId = ConsoleAppUi.GetInt("\n" + inputs["entertopicdeleteid"], inputs["invalid"]);
 
             using (var db = new Learning_Diary_ELContext())
             {
@@ -152,7 +152,7 @@ namespace Learning_Diary_EL
             Console.WriteLine(inputs["entertopicdesc"]);
             string description = Console.ReadLine();
 
-            int estimatedTimeToMaster = UserUI.GetInt(inputs["enterdays"], inputs["invalid"]);
+            int estimatedTimeToMaster = ConsoleAppUi.GetInt(inputs["enterdays"], inputs["invalid"]);
 
             Console.WriteLine(inputs["entersource"]);
             string source = Console.ReadLine();
@@ -188,13 +188,13 @@ namespace Learning_Diary_EL
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
-                UserUI.PrintBanner(inputs["topictitle"]);
+                ConsoleAppUi.PrintBanner(inputs["topictitle"]);
                 Console.ForegroundColor = ConsoleColor.Gray;
 
                 Console.WriteLine(topicToEdit.ToString(inputs));
 
                 // "1 - add task to topic" + "\n" + "2 - list tasks" + "\n" + "3 - edit topic information" + "\n" + "4 - delete task" + "\n" + "5 - edit task" + "\n" + "6 - mark topic as complete" + "\n" + "0 - go back." + "\n" + "Enter number to continue: "
-                int editChoice = UserUI.GetInt(inputs["topicmenu"], inputs["invalid"]); 
+                int editChoice = ConsoleAppUi.GetInt(inputs["topicmenu"], inputs["invalid"]); 
                 
                 switch (editChoice)
                 {
@@ -227,7 +227,7 @@ namespace Learning_Diary_EL
                                 Console.WriteLine(taskFound.Id + ": " + taskFound.Title);
                             }
 
-                            int taskChoice = UserUI.GetInt(inputs["entertaskeditid"], inputs["invalid"]);
+                            int taskChoice = ConsoleAppUi.GetInt(inputs["entertaskeditid"], inputs["invalid"]);
 
                             Models.Task task = db.Tasks.Find(taskChoice);
                             if (task == null)

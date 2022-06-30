@@ -65,9 +65,9 @@ namespace Learning_Diary_EL.Models
             string description = Console.ReadLine();
 
             Console.WriteLine("\n" + inputs["deadline"] + this.Deadline.ToShortDateString());
-            DateTime deadline = UserUI.GetDateTime(inputs["enternewdl"], inputs["invalid"]);
+            DateTime deadline = ConsoleAppUi.GetDateTime(inputs["enternewdl"], inputs["invalid"]);
 
-            int choice = UserUI.GetInt("\n" + inputs["entertaskprio"], inputs["invalid"]);
+            int choice = ConsoleAppUi.GetInt("\n" + inputs["entertaskprio"], inputs["invalid"]);
 
             using (var db = new Learning_Diary_ELContext())
             {
