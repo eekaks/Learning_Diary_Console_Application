@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ConsoleAppUI;
 
 namespace Learning_Diary_EL
 {
@@ -26,7 +25,7 @@ namespace Learning_Diary_EL
                 Console.ForegroundColor = ConsoleColor.Gray;
 
                 //"1 - add a topic" + "\n" + "2 - list topics" + "\n" + "3 - delete topic" + "\n" + "4 - edit topic" + "\n" + "0 - save & exit." + "\n" + "Enter number to continue:"
-                int choice = ConsoleAppUI.ConsoleAppUI.GetInt(inputs["mainmenu"], inputs["invalid"]);  
+                int choice = ConsoleAppUi.GetInt(inputs["mainmenu"], inputs["invalid"]);  
 
                 switch (choice)
                 {
