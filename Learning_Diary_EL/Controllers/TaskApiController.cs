@@ -11,27 +11,27 @@ namespace Learning_Diary_EL.Controllers
         [HttpGet("tasks/all")]
         public ActionResult<List<Models.Task>> Get()
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                List<Models.Task> tasks = db.Tasks.Select(task => task).ToList();
+                List<Models.Task> tasks = db.Task.Select(task => task).ToList();
                 return tasks;
             }
         }
         [HttpGet("tasks/{id}")]
         public ActionResult<Models.Task> Get(int id)
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                Models.Task task = db.Tasks.Find(id);
+                Models.Task task = db.Task.Find(id);
                 return task;
             }
         }
         [HttpPost("tasks/create")]
         public IActionResult Create(Models.Task task)
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                db.Tasks.Add(task);
+                db.Task.Add(task);
                 db.SaveChanges();
             }
 
@@ -40,9 +40,9 @@ namespace Learning_Diary_EL.Controllers
         [HttpDelete("tasks/delete")]
         public IActionResult Delete(Models.Task task)
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                db.Tasks.Remove(task);
+                db.Task.Remove(task);
                 db.SaveChanges();
             }
 

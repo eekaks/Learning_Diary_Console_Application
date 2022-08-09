@@ -11,27 +11,27 @@ namespace Learning_Diary_EL.Controllers
         [HttpGet("notes/all")]
         public ActionResult<List<Note>> Get()
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                List<Note> notes = db.Notes.Select(note => note).ToList();
+                List<Note> notes = db.Note.Select(note => note).ToList();
                 return notes;
             }
         }
         [HttpGet("notes/{id}")]
         public ActionResult<Note> Get(int id)
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                Note note = db.Notes.Find(id);
+                Note note = db.Note.Find(id);
                 return note;
             }
         }
         [HttpPost("notes/create")]
         public IActionResult Create(Note note)
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                db.Notes.Add(note);
+                db.Note.Add(note);
                 db.SaveChanges();
             }
 
@@ -40,9 +40,9 @@ namespace Learning_Diary_EL.Controllers
         [HttpDelete("notes/delete")]
         public IActionResult Delete(Note note)
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                db.Notes.Remove(note);
+                db.Note.Remove(note);
                 db.SaveChanges();
             }
 

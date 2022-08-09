@@ -33,9 +33,9 @@ namespace Learning_Diary_EL.Models
         }
         public async System.Threading.Tasks.Task CompleteTopicAsync()
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                Topic topic = db.Topics.Find(this.Id);
+                Topic topic = db.Topic.Find(this.Id);
                 topic.InProgress = false;
                 topic.CompletionDate = DateTime.Now;
                 TimeSpan spentTime = CompletionDate - topic.StartLearningDate;
@@ -54,18 +54,18 @@ namespace Learning_Diary_EL.Models
             DateTime deadline = ConsoleAppUi.GetDateTime(inputs["entertaskdl"], inputs["invalid"]);
             int choice = ConsoleAppUi.GetInt(inputs["entertaskprio"], inputs["invalid"]);
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
                 int taskId;
-                if (db.Tasks.Count() == 0)
+                if (db.Task.Count() == 0)
                 {
                     taskId = 0;
                 }
                 else
                 {
-                    taskId = db.Tasks.Max(task => task.Id);
+                    taskId = db.Task.Max(task => task.Id);
                 }
-                db.Tasks.Add(new Models.Task(taskId + 1, this.Id, name, description, deadline, choice));
+                db.Task.Add(new Models.Task(taskId + 1, this.Id, name, description, deadline, choice));
                 db.SaveChangesAsync();
             }
             Console.WriteLine(inputs["taskaddsuccess"]);
@@ -90,9 +90,9 @@ namespace Learning_Diary_EL.Models
             Console.WriteLine(inputs["entersource"]);
             string source = Console.ReadLine();
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                Topic topic = db.Topics.Find(this.Id);
+                Topic topic = db.Topic.Find(this.Id);
                 topic.Title = title;
                 topic.Description = description;
                 topic.EstimatedTimeToMaster = estimatedtimetomaster;
@@ -109,9 +109,9 @@ namespace Learning_Diary_EL.Models
         {
             Console.WriteLine();
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                IQueryable<Models.Task> tasks = db.Tasks.Where(x => x.Topic == this.Id);
+                IQueryable<Models.Task> tasks = db.Task.Where(x => x.Topic == this.Id);
                 foreach (Models.Task task in tasks)
                 {
                     Console.WriteLine(task.Id + ": " + task.Title);
@@ -125,16 +125,16 @@ namespace Learning_Diary_EL.Models
         {
             Console.WriteLine();
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                IQueryable<Models.Task> tasks = db.Tasks.Where(x => x.Topic == this.Id);
+                IQueryable<Models.Task> tasks = db.Task.Where(x => x.Topic == this.Id);
                 foreach (Models.Task taskFound in tasks)
                 {
                     Console.WriteLine(taskFound.Id + ": " + taskFound.Title);
                 }
                 int deleteChoice = ConsoleAppUi.GetInt("\n" + inputs["entertaskdeleteid"], inputs["invalid"]);
 
-                Models.Task task = db.Tasks.Find(deleteChoice);
+                Models.Task task = db.Task.Find(deleteChoice);
                 if (task == null)
                 {
                     Console.WriteLine(inputs["tasknotfound"]);
@@ -143,7 +143,7 @@ namespace Learning_Diary_EL.Models
                 }
                 else
                 {
-                    db.Tasks.Remove(task);
+                    db.Task.Remove(task);
                     db.SaveChangesAsync();
                     Console.WriteLine(inputs["taskdeletesuccess"]);
                     Console.WriteLine(inputs["pressanykey"]);

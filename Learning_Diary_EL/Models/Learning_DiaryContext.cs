@@ -6,27 +6,26 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Learning_Diary_EL.Models
 {
-    public partial class Learning_Diary_ELContext : DbContext
+    public partial class Learning_DiaryContext : DbContext
     {
-        public Learning_Diary_ELContext()
+        public Learning_DiaryContext()
         {
         }
 
-        public Learning_Diary_ELContext(DbContextOptions<Learning_Diary_ELContext> options)
+        public Learning_DiaryContext(DbContextOptions<Learning_DiaryContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<Note> Notes { get; set; }
-        public virtual DbSet<Task> Tasks { get; set; }
-        public virtual DbSet<Topic> Topics { get; set; }
+        public virtual DbSet<Note> Note { get; set; }
+        public virtual DbSet<Task> Task { get; set; }
+        public virtual DbSet<Topic> Topic { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-5CRN78I\\;Database=Learning_Diary_EL;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=EETU\\;Database=Learning_Diary;Trusted_Connection=True;");
             }
         }
 

@@ -12,9 +12,9 @@ namespace Learning_Diary_EL.Controllers
         [HttpGet]
         public ActionResult<List<Topic>> GetAll()
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                List<Topic> topics = db.Topics.Select(topic => topic).ToList();
+                List<Topic> topics = db.Topic.Select(topic => topic).ToList();
                 if (!topics.Any())
                 {
                     return NotFound();
@@ -26,9 +26,9 @@ namespace Learning_Diary_EL.Controllers
         [HttpGet("{id}")]
         public ActionResult<Topic> Get(int id)
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                Models.Topic topic = db.Topics.Find(id);
+                Topic topic = db.Topic.Find(id);
                 if (topic is null)
                 {
                     return NotFound();
@@ -40,9 +40,9 @@ namespace Learning_Diary_EL.Controllers
         [HttpPost]
         public IActionResult Create(Topic topic)
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                db.Topics.Add(topic);
+                db.Topic.Add(topic);
                 db.SaveChanges();
             }
 
@@ -52,14 +52,14 @@ namespace Learning_Diary_EL.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                var topicToDelete = db.Topics.Find(id);
+                var topicToDelete = db.Topic.Find(id);
                 if (topicToDelete is null)
                 {
                     return NotFound();
                 }
-                db.Topics.Remove(topicToDelete);
+                db.Topic.Remove(topicToDelete);
                 db.SaveChanges();
             }
 
@@ -73,9 +73,9 @@ namespace Learning_Diary_EL.Controllers
             {
                 return BadRequest();
             }
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_DiaryContext())
             {
-                Topic topicToUpdate = db.Topics.Find(id);
+                Topic topicToUpdate = db.Topic.Find(id);
                 if (topicToUpdate is null)
                 {
                     return NotFound();
