@@ -28,9 +28,13 @@ namespace Learning_Diary_EL.Models
         }
         public async System.Threading.Tasks.Task CompleteTask()
         {
+<<<<<<< HEAD
             using (var db = new Learning_Diary_ConsoleAppContext())
+=======
+            using (var db = new Learning_DiaryContext())
+>>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa
             {
-                Models.Task task = db.Tasks.Find(this.Id);
+                Models.Task task = db.Task.Find(this.Id);
                 task.Done = true;
                 db.SaveChangesAsync();
             }
@@ -38,18 +42,26 @@ namespace Learning_Diary_EL.Models
 
         public async System.Threading.Tasks.Task AddNote(string noteToAdd)
         {
+<<<<<<< HEAD
             using (var db = new Learning_Diary_ConsoleAppContext())
+=======
+            using (var db = new Learning_DiaryContext())
+>>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa
             {
                 int noteId;
-                if (!db.Notes.Any())
+                if (!db.Note.Any())
                 {
                     noteId = 0;
                 }
                 else
                 {
-                    noteId = db.Notes.Max(note => note.Id);
+                    noteId = db.Note.Max(note => note.Id);
                 }
+<<<<<<< HEAD
                 db.Notes.Add(new Models.Note() { Id = noteId+1, Task = this.Id, Note1 = noteToAdd});
+=======
+                db.Note.Add(new Note() { Id = noteId+1, Task = this.Id, Note1 = noteToAdd });
+>>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa
                 db.SaveChangesAsync();
             }
         }
@@ -69,9 +81,13 @@ namespace Learning_Diary_EL.Models
 
             int choice = ConsoleAppUi.GetInt("\n" + inputs["entertaskprio"], inputs["invalid"]);
 
+<<<<<<< HEAD
             using (var db = new Learning_Diary_ConsoleAppContext())
+=======
+            using (var db = new Learning_DiaryContext())
+>>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa
             {
-                Models.Task task = db.Tasks.Find(this.Id);
+                Models.Task task = db.Task.Find(this.Id);
                 task.Title = title;
                 task.Description = description;
                 task.Deadline = deadline;
@@ -87,9 +103,13 @@ namespace Learning_Diary_EL.Models
         public void PrintNotes(Dictionary<string, string> inputs)
         {
             Console.WriteLine();
+<<<<<<< HEAD
             using (var db = new Learning_Diary_ConsoleAppContext())
+=======
+            using (var db = new Learning_DiaryContext())
+>>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa
             {
-                var notes = db.Notes.Where(x => x.Task == this.Id);
+                var notes = db.Note.Where(x => x.Task == this.Id);
                 foreach (Note note in notes)
                 {
                     Console.WriteLine(note.Note1);

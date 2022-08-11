@@ -28,7 +28,7 @@ namespace Learning_Diary_EL
 
                     using (var db = new Learning_Diary_ConsoleAppContext())
                     {
-                        Topic topic = db.Topics.Find(searchId);
+                        Topic topic = db.Topic.Find(searchId);
                         if (topic == null)
                         {
                             Console.WriteLine(inputs["notopicfound"]);
@@ -49,7 +49,7 @@ namespace Learning_Diary_EL
 
                     using (var db = new Learning_Diary_ConsoleAppContext())
                     {
-                        List<Topic> topics = db.Topics.ToList();
+                        List<Topic> topics = db.Topic.ToList();
                         foreach (Topic topic in topics)
                         {
                             if (topic.Title.ToLower().Contains(search.ToLower()))
@@ -104,7 +104,7 @@ namespace Learning_Diary_EL
 
             using (var db = new Learning_Diary_ConsoleAppContext())
             {
-                List<Topic> topics = db.Topics.ToList();
+                List<Topic> topics = db.Topic.ToList();
 
                 if (!topics.Any())
                 {
@@ -128,7 +128,7 @@ namespace Learning_Diary_EL
 
             using (var db = new Learning_Diary_ConsoleAppContext())
             {
-                Topic topic = db.Topics.Find(inputId);
+                Topic topic = db.Topic.Find(inputId);
 
                 if (topic == null)
                 {
@@ -136,7 +136,7 @@ namespace Learning_Diary_EL
                 }
                 else
                 {
-                    db.Topics.Remove(topic);
+                    db.Topic.Remove(topic);
                     System.Threading.Tasks.Task plop = db.SaveChangesAsync();
                     Console.WriteLine(inputs["topicremovesuccess"]);
                 }
@@ -160,13 +160,13 @@ namespace Learning_Diary_EL
             using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 int id;
-                if (!db.Topics.Any())
+                if (!db.Topic.Any())
                 {
                     id = 0;
                 }
                 else
                 {
-                    id = db.Topics.Max(topic => topic.Id);
+                    id = db.Topic.Max(topic => topic.Id);
                 }
 
                 db.Topics.Add(new Topic(title, description, estimatedTimeToMaster, source, id + 1));
@@ -222,7 +222,7 @@ namespace Learning_Diary_EL
                     case 5:
                         using (var db = new Learning_Diary_ConsoleAppContext())
                         {
-                            IQueryable<Models.Task> tasks = db.Tasks.Where(x => x.Topic == topicToEdit.Id);
+                            IQueryable<Models.Task> tasks = db.Task.Where(x => x.Topic == topicToEdit.Id);
                             foreach (Models.Task taskFound in tasks)
                             {
                                 Console.WriteLine(taskFound.Id + ": " + taskFound.Title);
@@ -230,7 +230,7 @@ namespace Learning_Diary_EL
 
                             int taskChoice = ConsoleAppUi.GetInt(inputs["entertaskeditid"], inputs["invalid"]);
 
-                            Models.Task task = db.Tasks.Find(taskChoice);
+                            Models.Task task = db.Task.Find(taskChoice);
                             if (task == null)
                             {
                                 Console.WriteLine(inputs["tasknotfound"]);
