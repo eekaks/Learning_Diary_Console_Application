@@ -1,6 +1,13 @@
 This is a learning diary app with a console user interface.
 
-You need to be running an SQL server at your localhost (edit in Learning_Diary_ELContext.cs) with appropriate tables for it to work.
+To run the app, clone the repository and make sure you have the following packages installed with Nuget Package Manager:
+	- Microsoft.AspNetCore.Mvc.Core Version 2.2.5
+	- Microsoft.EntityFrameworkCore.SqlServer Version 5.0.17
+	- Microsoft.EntityFrameworkCore.Tools Version 5.0.17
+
+You also need an SQL client installed (such as Microsoft SQL Server Management Studio)
+
+Browse to the folder containing Program.cs and use the command 'dotnet run', or use Visual Studio or another IDE to run the solution file.
 
 The diary holds topics among other information, topics hold tasks among other information. Tasks hold notes among other information.
 

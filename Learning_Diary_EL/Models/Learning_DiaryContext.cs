@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Learning_Diary_EL.Models
 {
-<<<<<<< HEAD:Learning_Diary_EL/Models/Learning_Diary_ELContext.cs
     public partial class Learning_Diary_ConsoleAppContext : DbContext
     {
         public Learning_Diary_ConsoleAppContext()
@@ -14,15 +13,6 @@ namespace Learning_Diary_EL.Models
         }
 
         public Learning_Diary_ConsoleAppContext(DbContextOptions<Learning_Diary_ConsoleAppContext> options)
-=======
-    public partial class Learning_DiaryContext : DbContext
-    {
-        public Learning_DiaryContext()
-        {
-        }
-
-        public Learning_DiaryContext(DbContextOptions<Learning_DiaryContext> options)
->>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa:Learning_Diary_EL/Models/Learning_DiaryContext.cs
             : base(options)
         {
         }
@@ -35,15 +25,11 @@ namespace Learning_Diary_EL.Models
         {
 
             // set this variable to your computer name so database creation and use works
-            string computerName = "your-computer-name";
+            string computerName = "your-computer-name-here";
 
             if (!optionsBuilder.IsConfigured)
             {
-<<<<<<< HEAD:Learning_Diary_EL/Models/Learning_Diary_ELContext.cs
                 optionsBuilder.UseSqlServer($"Server={computerName}\\;Database=Learning_Diary_ConsoleApp;Trusted_Connection=True;");
-=======
-                optionsBuilder.UseSqlServer("Server=EETU\\;Database=Learning_Diary;Trusted_Connection=True;");
->>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa:Learning_Diary_EL/Models/Learning_DiaryContext.cs
             }
         }
 

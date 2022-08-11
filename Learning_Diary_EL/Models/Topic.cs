@@ -33,11 +33,7 @@ namespace Learning_Diary_EL.Models
         }
         public void CompleteTopic()
         {
-<<<<<<< HEAD
             using (var db = new Learning_Diary_ConsoleAppContext())
-=======
-            using (var db = new Learning_DiaryContext())
->>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa
             {
                 Topic topic = db.Topic.Find(this.Id);
                 topic.InProgress = false;
@@ -58,11 +54,7 @@ namespace Learning_Diary_EL.Models
             DateTime deadline = ConsoleAppUi.GetDateTime(inputs["entertaskdl"], inputs["invalid"]);
             int choice = ConsoleAppUi.GetInt(inputs["entertaskprio"], inputs["invalid"]);
 
-<<<<<<< HEAD
             using (var db = new Learning_Diary_ConsoleAppContext())
-=======
-            using (var db = new Learning_DiaryContext())
->>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa
             {
                 int taskId;
                 if (db.Task.Count() == 0)
@@ -98,11 +90,7 @@ namespace Learning_Diary_EL.Models
             Console.WriteLine(inputs["entersource"]);
             string source = Console.ReadLine();
 
-<<<<<<< HEAD
             using (var db = new Learning_Diary_ConsoleAppContext())
-=======
-            using (var db = new Learning_DiaryContext())
->>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa
             {
                 Topic topic = db.Topic.Find(this.Id);
                 topic.Title = title;
@@ -121,11 +109,7 @@ namespace Learning_Diary_EL.Models
         {
             Console.WriteLine();
 
-<<<<<<< HEAD
             using (var db = new Learning_Diary_ConsoleAppContext())
-=======
-            using (var db = new Learning_DiaryContext())
->>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa
             {
                 IQueryable<Models.Task> tasks = db.Task.Where(x => x.Topic == this.Id);
                 foreach (Models.Task task in tasks)
@@ -141,11 +125,7 @@ namespace Learning_Diary_EL.Models
         {
             Console.WriteLine();
 
-<<<<<<< HEAD
             using (var db = new Learning_Diary_ConsoleAppContext())
-=======
-            using (var db = new Learning_DiaryContext())
->>>>>>> 9a8a0700e33facd885f56571a99e59f8ec1849aa
             {
                 IQueryable<Models.Task> tasks = db.Task.Where(x => x.Topic == this.Id);
                 foreach (Models.Task taskFound in tasks)

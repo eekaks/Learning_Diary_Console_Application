@@ -169,7 +169,7 @@ namespace Learning_Diary_EL
                     id = db.Topic.Max(topic => topic.Id);
                 }
 
-                db.Topics.Add(new Topic(title, description, estimatedTimeToMaster, source, id + 1));
+                db.Topic.Add(new Topic(title, description, estimatedTimeToMaster, source, id + 1));
                 db.SaveChangesAsync();
             }
         }
