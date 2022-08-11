@@ -26,7 +26,7 @@ namespace Learning_Diary_EL
                         break;
                     }
 
-                    using (var db = new Learning_Diary_ELContext())
+                    using (var db = new Learning_Diary_ConsoleAppContext())
                     {
                         Topic topic = db.Topics.Find(searchId);
                         if (topic == null)
@@ -47,7 +47,7 @@ namespace Learning_Diary_EL
                     //search by keyword next
                     List<Topic> foundTopics = new List<Topic>();
 
-                    using (var db = new Learning_Diary_ELContext())
+                    using (var db = new Learning_Diary_ConsoleAppContext())
                     {
                         List<Topic> topics = db.Topics.ToList();
                         foreach (Topic topic in topics)
@@ -102,7 +102,7 @@ namespace Learning_Diary_EL
             // UserUI.PrintBanner(inputs["topicstitle"]);
             Console.WriteLine();
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 List<Topic> topics = db.Topics.ToList();
 
@@ -126,7 +126,7 @@ namespace Learning_Diary_EL
             
             int inputId = ConsoleAppUi.GetInt("\n" + inputs["entertopicdeleteid"], inputs["invalid"]);
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 Topic topic = db.Topics.Find(inputId);
 
@@ -157,7 +157,7 @@ namespace Learning_Diary_EL
             Console.WriteLine(inputs["entersource"]);
             string source = Console.ReadLine();
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 int id;
                 if (!db.Topics.Any())
@@ -220,7 +220,7 @@ namespace Learning_Diary_EL
                         break;
                         
                     case 5:
-                        using (var db = new Learning_Diary_ELContext())
+                        using (var db = new Learning_Diary_ConsoleAppContext())
                         {
                             IQueryable<Models.Task> tasks = db.Tasks.Where(x => x.Topic == topicToEdit.Id);
                             foreach (Models.Task taskFound in tasks)
@@ -246,7 +246,7 @@ namespace Learning_Diary_EL
                         break;
 
                     case 6:
-                        System.Threading.Tasks.Task completeTask = topicToEdit.CompleteTopicAsync();
+                        topicToEdit.CompleteTopic();
                         Console.WriteLine(inputs["topiccompleted"]);
                         Console.WriteLine(inputs["pressanykey"]);
                         Console.ReadKey();

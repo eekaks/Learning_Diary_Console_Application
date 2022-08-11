@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-#nullable disable
 
 namespace Learning_Diary_EL.Models
 {
@@ -19,6 +18,7 @@ namespace Learning_Diary_EL.Models
         public bool InProgress { get; set; }
         public DateTime CompletionDate { get; set; }
 
+
         public Topic(string title, string description, int estimatedTimeToMaster, string source, int id)
         {
             Id = id;
@@ -31,9 +31,9 @@ namespace Learning_Diary_EL.Models
             InProgress = true;
             CompletionDate = DateTime.MaxValue;
         }
-        public async System.Threading.Tasks.Task CompleteTopicAsync()
+        public void CompleteTopic()
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 Topic topic = db.Topics.Find(this.Id);
                 topic.InProgress = false;
@@ -41,7 +41,7 @@ namespace Learning_Diary_EL.Models
                 TimeSpan spentTime = CompletionDate - topic.StartLearningDate;
                 topic.TimeSpent = (int)spentTime.TotalDays;
 
-                db.SaveChangesAsync();
+                db.SaveChanges();
             }
             
         }
@@ -54,7 +54,7 @@ namespace Learning_Diary_EL.Models
             DateTime deadline = ConsoleAppUi.GetDateTime(inputs["entertaskdl"], inputs["invalid"]);
             int choice = ConsoleAppUi.GetInt(inputs["entertaskprio"], inputs["invalid"]);
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 int taskId;
                 if (db.Tasks.Count() == 0)
@@ -90,7 +90,7 @@ namespace Learning_Diary_EL.Models
             Console.WriteLine(inputs["entersource"]);
             string source = Console.ReadLine();
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 Topic topic = db.Topics.Find(this.Id);
                 topic.Title = title;
@@ -109,7 +109,7 @@ namespace Learning_Diary_EL.Models
         {
             Console.WriteLine();
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 IQueryable<Models.Task> tasks = db.Tasks.Where(x => x.Topic == this.Id);
                 foreach (Models.Task task in tasks)
@@ -125,7 +125,7 @@ namespace Learning_Diary_EL.Models
         {
             Console.WriteLine();
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 IQueryable<Models.Task> tasks = db.Tasks.Where(x => x.Topic == this.Id);
                 foreach (Models.Task taskFound in tasks)

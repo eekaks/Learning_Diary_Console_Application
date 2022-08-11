@@ -28,7 +28,7 @@ namespace Learning_Diary_EL.Models
         }
         public async System.Threading.Tasks.Task CompleteTask()
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 Models.Task task = db.Tasks.Find(this.Id);
                 task.Done = true;
@@ -38,7 +38,7 @@ namespace Learning_Diary_EL.Models
 
         public async System.Threading.Tasks.Task AddNote(string noteToAdd)
         {
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 int noteId;
                 if (!db.Notes.Any())
@@ -49,7 +49,7 @@ namespace Learning_Diary_EL.Models
                 {
                     noteId = db.Notes.Max(note => note.Id);
                 }
-                db.Notes.Add(new Note() { Id = noteId+1, Task = this.Id, Note1 = noteToAdd });
+                db.Notes.Add(new Models.Note() { Id = noteId+1, Task = this.Id, Note1 = noteToAdd});
                 db.SaveChangesAsync();
             }
         }
@@ -69,7 +69,7 @@ namespace Learning_Diary_EL.Models
 
             int choice = ConsoleAppUi.GetInt("\n" + inputs["entertaskprio"], inputs["invalid"]);
 
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 Models.Task task = db.Tasks.Find(this.Id);
                 task.Title = title;
@@ -87,7 +87,7 @@ namespace Learning_Diary_EL.Models
         public void PrintNotes(Dictionary<string, string> inputs)
         {
             Console.WriteLine();
-            using (var db = new Learning_Diary_ELContext())
+            using (var db = new Learning_Diary_ConsoleAppContext())
             {
                 var notes = db.Notes.Where(x => x.Task == this.Id);
                 foreach (Note note in notes)

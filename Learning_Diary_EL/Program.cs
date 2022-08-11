@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Learning_Diary_EL.Models;
 using System.Threading.Tasks;
 using ConsoleAppUI;
 
@@ -11,6 +12,12 @@ namespace Learning_Diary_EL
         {
             // set slightly larger console window
             Console.SetWindowSize(136, 30);
+
+            // create local database if doesnt exist
+            using (var db = new Learning_Diary_ConsoleAppContext())
+            {
+                db.Database.EnsureCreated();
+            }
 
             // choose localization
             Dictionary<string, string> inputs = Localization.ChooseLanguage();
